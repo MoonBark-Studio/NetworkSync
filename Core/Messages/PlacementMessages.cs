@@ -33,6 +33,65 @@ public static class MessageTypes
 }
 
 /// <summary>
+/// Connection handshake request from client to server.
+/// </summary>
+public class ConnectRequestMessage : NetworkMessageBase
+{
+    public override byte MessageType => MessageTypes.ConnectRequest;
+
+    /// <summary>
+    /// The game version of the client.
+    /// </summary>
+    public string GameVersion { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The client's unique identifier.
+    /// </summary>
+    public string ClientId { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Connection handshake response from server to client.
+/// </summary>
+public class ConnectResponseMessage : NetworkMessageBase
+{
+    public override byte MessageType => MessageTypes.ConnectResponse;
+
+    /// <summary>
+    /// Whether the connection was accepted.
+    /// </summary>
+    public bool Accepted { get; set; }
+
+    /// <summary>
+    /// The reason for rejection if not accepted.
+    /// </summary>
+    public string RejectReason { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The assigned peer ID for this client.
+    /// </summary>
+    public int AssignedPeerId { get; set; }
+
+    /// <summary>
+    /// The server's game version.
+    /// </summary>
+    public string ServerGameVersion { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Disconnect message sent when a peer disconnects gracefully.
+/// </summary>
+public class DisconnectMessage : NetworkMessageBase
+{
+    public override byte MessageType => MessageTypes.Disconnect;
+
+    /// <summary>
+    /// The reason for disconnection.
+    /// </summary>
+    public string Reason { get; set; } = string.Empty;
+}
+
+/// <summary>
 /// Represents a placement command from a client to the server.
 /// </summary>
 public class PlacementCommandMessage : NetworkMessageBase

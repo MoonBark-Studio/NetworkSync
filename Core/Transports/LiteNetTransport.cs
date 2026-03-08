@@ -18,6 +18,8 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
     private readonly Dictionary<int, NetPeer> _connectedPeers;
     private readonly Dictionary<byte, Func<INetworkMessage>> _messageFactories;
     private int _nextPeerId;
+    private string _gameVersion = "1.0.0"; // Default version, should be configurable
+    private TaskCompletionSource<bool>? _connectionCompletionSource;
 
     public bool IsConnected => _netManager != null && _netManager.IsRunning && ConnectionState == NetworkConnectionState.Connected;
     public bool IsServer { get; private set; }
@@ -26,6 +28,15 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
     public event EventHandler<NetworkMessageEventArgs>? MessageReceived;
     public event EventHandler<PeerConnectedEventArgs>? PeerConnected;
     public event EventHandler<PeerDisconnectedEventArgs>? PeerDisconnected;
+
+    /// <summary>
+    /// Gets or sets the game version for this transport instance.
+    /// </summary>
+    public string GameVersion
+    {
+        get => _gameVersion;
+        set => _gameVersion = value ?? "1.0.0";
+    }
 
     public LiteNetTransport()
     {
@@ -49,6 +60,9 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
             [MessageTypes.ChunkDelta] = static () => new ChunkDeltaMessage(),
             [MessageTypes.PredictedPlacement] = static () => new PredictedPlacementMessage(),
             [MessageTypes.PredictionReconcile] = static () => new PredictionReconcileMessage(),
+            [MessageTypes.ConnectRequest] = static () => new ConnectRequestMessage(),
+            [MessageTypes.ConnectResponse] = static () => new ConnectResponseMessage(),
+            [MessageTypes.Disconnect] = static () => new DisconnectMessage(),
         };
     }
 
@@ -82,8 +96,14 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
 
     public async Task ConnectAsync(string host, int port, CancellationToken cancellationToken = default)
     {
+        if (IsServer)
+        {
+            throw new InvalidOperationException("Cannot connect to server when running as server");
+        }
+
         IsServer = false;
         ConnectionState = NetworkConnectionState.Connecting;
+        _connectionCompletionSource = new TaskCompletionSource<bool>();
 
         await Task.Run(() =>
         {
@@ -105,6 +125,17 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
         while (ConnectionState == NetworkConnectionState.Connecting && !cancellationToken.IsCancellationRequested)
         {
             await Task.Delay(100, cancellationToken);
+        }
+
+        // Wait for version handshake to complete
+        if (ConnectionState == NetworkConnectionState.Connected)
+        {
+            bool handshakeComplete = await _connectionCompletionSource.Task.WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
+            if (!handshakeComplete)
+            {
+                await DisconnectAsync();
+                throw new InvalidOperationException("Connection handshake timed out");
+            }
         }
     }
 
@@ -196,6 +227,9 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
             peerId = _nextPeerId++;
             _connectedPeers[peerId] = peer;
             Console.WriteLine($"[LiteNetTransport] Client connected: {peer.EndPoint} (Peer ID: {peerId})");
+
+            // Server waits for client's ConnectRequest message
+            // Version validation will happen in OnNetworkReceive
         }
         else
         {
@@ -205,6 +239,14 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
             _connectedPeers[peerId] = peer;
             ConnectionState = NetworkConnectionState.Connected;
             Console.WriteLine($"[LiteNetTransport] Connected to server: {peer.EndPoint}");
+
+            // Send ConnectRequest with game version
+            var connectRequest = new ConnectRequestMessage
+            {
+                GameVersion = _gameVersion,
+                ClientId = Guid.NewGuid().ToString()
+            };
+            SendAsync(0, connectRequest, Interfaces.DeliveryMethod.ReliableOrdered);
         }
 
         PeerConnected?.Invoke(this, new PeerConnectedEventArgs
@@ -245,10 +287,92 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
         {
             INetworkMessage message = factory();
             message.Deserialize(payload);
+
+            // Handle connection handshake messages
+            if (message is ConnectRequestMessage connectRequest)
+            {
+                HandleConnectRequest(peer, connectRequest);
+                reader.Recycle();
+                return;
+            }
+
+            if (message is ConnectResponseMessage connectResponse)
+            {
+                HandleConnectResponse(connectResponse);
+                reader.Recycle();
+                return;
+            }
+
             DispatchMessage(peer, message);
         }
 
         reader.Recycle();
+    }
+
+    private void HandleConnectRequest(NetPeer peer, ConnectRequestMessage request)
+    {
+        if (!IsServer)
+        {
+            Console.WriteLine("[LiteNetTransport] Received ConnectRequest on client - ignoring");
+            return;
+        }
+
+        int peerId = _connectedPeers.FirstOrDefault(kvp => kvp.Value == peer).Key;
+        Console.WriteLine($"[LiteNetTransport] Received ConnectRequest from peer {peerId}: version {request.GameVersion}");
+
+        var response = new ConnectResponseMessage
+        {
+            ServerGameVersion = _gameVersion,
+            AssignedPeerId = peerId
+        };
+
+        // Validate version
+        if (request.GameVersion != _gameVersion)
+        {
+            response.Accepted = false;
+            response.RejectReason = $"Game version mismatch: client version {request.GameVersion} does not match server version {_gameVersion}";
+            Console.WriteLine($"[LiteNetTransport] Rejecting connection from peer {peerId}: {response.RejectReason}");
+        }
+        else
+        {
+            response.Accepted = true;
+            Console.WriteLine($"[LiteNetTransport] Accepting connection from peer {peerId}: version {request.GameVersion}");
+        }
+
+        // Send response
+        SendAsync(peerId, response, Interfaces.DeliveryMethod.ReliableOrdered);
+
+        // If rejected, disconnect the peer
+        if (!response.Accepted)
+        {
+            Task.Run(async () =>
+            {
+                await Task.Delay(100); // Give time for response to be sent
+                peer.Disconnect();
+            });
+        }
+    }
+
+    private void HandleConnectResponse(ConnectResponseMessage response)
+    {
+        if (IsServer)
+        {
+            Console.WriteLine("[LiteNetTransport] Received ConnectResponse on server - ignoring");
+            return;
+        }
+
+        Console.WriteLine($"[LiteNetTransport] Received ConnectResponse: accepted={response.Accepted}, reason={response.RejectReason}");
+
+        if (response.Accepted)
+        {
+            _connectionCompletionSource?.SetResult(true);
+        }
+        else
+        {
+            _connectionCompletionSource?.SetException(new InvalidOperationException(
+                $"Connection rejected by server: {response.RejectReason} (Server version: {response.ServerGameVersion}, Client version: {_gameVersion})"));
+            ConnectionState = NetworkConnectionState.Disconnected;
+        }
     }
 
     public void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType)
