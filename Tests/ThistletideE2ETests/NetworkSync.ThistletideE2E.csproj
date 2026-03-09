@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\NetworkSync.Core.csproj" />
+    <ProjectReference Include="..\..\..\MoonBark.Core.Primitives\MoonBark.Core.Primitives.csproj" />
   </ItemGroup>
 
 </Project>
