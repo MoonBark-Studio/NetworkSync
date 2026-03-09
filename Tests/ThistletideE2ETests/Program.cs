@@ -1,12 +1,36 @@
+using NetworkSync.Tests.ThistletideE2E.Simulations;
+
 namespace NetworkSync.Tests.ThistletideE2E;
 
 /// <summary>
 /// E2E Tests for Thistletide network sync using Thistletide occupancy map API.
 /// Tests the NetworkSync plugin with Thistletide's TrackedPlacementOccupancyMap.
+/// 
+/// Also includes GOAP Tower Defense Evaluation for game balance assessment.
 /// </summary>
 class Program
 {
     static async Task<int> Main(string[] args)
+    {
+        // Check if we should run GOAP evaluation
+        if (args.Length > 0 && args[0] == "--goap")
+        {
+            return await RunGoapEvaluationAsync();
+        }
+
+        // Default: run network stress tests
+        return await RunNetworkStressTestsAsync();
+    }
+
+    static async Task<int> RunGoapEvaluationAsync()
+    {
+        Console.WriteLine("Starting GOAP Tower Defense Evaluation...");
+        var evaluation = new GoapTowerDefenseEvaluation();
+        await evaluation.RunEvaluationAsync(agentCount: 10, stepsPerAgent: 50);
+        return 0;
+    }
+
+    static async Task<int> RunNetworkStressTestsAsync()
     {
         Console.WriteLine("=".PadRight(60, '='));
         Console.WriteLine("THISTLETIDE E2E NETWORK SYNC TESTS");
