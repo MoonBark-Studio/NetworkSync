@@ -14,7 +14,6 @@ public class GoapTowerDefenseEvaluation
     private int _nextStructureId = 1;
     
     // Agent state
-    private (int x, int y) _agentPosition = (25, 25);
     private int _wallsBuilt;
     private int _towersBuilt;
     private int _buildAttempts;

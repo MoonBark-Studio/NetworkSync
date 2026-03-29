@@ -208,7 +208,7 @@ public class SimpleClientExample
         Console.WriteLine("\n=== Client Status ===");
         Console.WriteLine($"Connected: {_networkManager.IsConnected}");
         Console.WriteLine($"Server: {_networkManager.IsServer}");
-        Console.WriteLine($"Pending Commands: {_networkManager.ClientPrediction.GetPredictedPlacements().Count()}");
+        Console.WriteLine($"Pending Commands: {_networkManager.ClientPrediction?.GetPredictedPlacements()?.Count() ?? 0}");
 
         var localOccupancy = _localValidator.GetLocalOccupancy();
         Console.WriteLine($"Local Occupancy: {localOccupancy.Count} cells");
