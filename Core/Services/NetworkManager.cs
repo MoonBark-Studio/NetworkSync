@@ -247,6 +247,9 @@ public sealed class NetworkManager : IDisposable
         {
         }
 
+        _transport.PeerConnected -= OnPeerConnected;
+        _transport.PeerDisconnected -= OnPeerDisconnected;
+
         _transport.DisconnectAsync().GetAwaiter().GetResult();
         _cancellationTokenSource.Dispose();
     }

@@ -68,13 +68,13 @@ Latest successful local run:
 Run tests:
 
 ```powershell
-dotnet test c:\dev\godot\projects\plugins\NetworkSync\Tests\StressTests\NetworkSync.StressTests.csproj
+dotnet test c:\dev\godot\projects\internal\NetworkSync\Tests\StressTests\NetworkSync.StressTests.csproj
 ```
 
 Run tests with coverage:
 
 ```powershell
-dotnet test c:\dev\godot\projects\plugins\NetworkSync\Tests\StressTests\NetworkSync.StressTests.csproj --collect:"XPlat Code Coverage"
+dotnet test c:\dev\godot\projects\internal\NetworkSync\Tests\StressTests\NetworkSync.StressTests.csproj --collect:"XPlat Code Coverage"
 ```
 
 ## Current Gaps

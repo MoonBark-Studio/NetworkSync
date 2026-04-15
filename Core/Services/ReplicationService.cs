@@ -20,6 +20,8 @@ public class ReplicationService : IReplicationService
     public event EventHandler<OccupancyDeltaReceivedEventArgs>? OccupancyDeltaReceived;
     public event EventHandler<WorldSnapshotReceivedEventArgs>? WorldSnapshotReceived;
 
+    private bool _disposed;
+
     public ReplicationService(INetworkTransport transport)
     {
         _transport = transport;
@@ -195,6 +197,17 @@ public class ReplicationService : IReplicationService
         {
             _changedCells.Clear();
         }
+    }
+
+    /// <summary>
+    /// Detaches from transport events and releases resources.
+    /// </summary>
+    public void Dispose()
+    {
+        if (_disposed) return;
+        _disposed = true;
+
+        _transport.MessageReceived -= OnMessageReceived;
     }
 
     private void OnMessageReceived(object? sender, NetworkMessageEventArgs e)

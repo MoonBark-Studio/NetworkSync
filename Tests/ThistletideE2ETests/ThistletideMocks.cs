@@ -96,7 +96,7 @@ public struct PlacementCellOccupancy
 }
 
 /// <summary>
-/// Simple 2D vector for integers matching MoonBark.Core.Types.CoreVector2I.
+/// Simple 2D vector for integers matching MoonBark.Framework.Types.CoreVector2I.
 /// </summary>
 public struct CoreVector2I
 {
