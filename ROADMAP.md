@@ -7,7 +7,7 @@ Authoritative state synchronization for multiplayer games.
 ## Development Phases
 
 ### Phase 0: Framework Alignment (P0)
-- [ ] Define `ISyncProvider` in `MoonBark.Framework.Abstractions.Network`.
+- [ ] Define `ISyncProvider` in `MoonBark.Framework.Network`.
 - [ ] Implement `NetworkTransformComponent` using Framework primitives.
 - [ ] Standardize RPC event bus on Framework events.
 
