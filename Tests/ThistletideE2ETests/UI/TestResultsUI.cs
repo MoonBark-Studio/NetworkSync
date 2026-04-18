@@ -1,4 +1,4 @@
-namespace NetworkSync.Tests.ThistletideE2E.UI;
+namespace MoonBark.NetworkSync.Tests.ThistletideE2E.UI;
 
 /// <summary>
 /// UI component for displaying test results in a structured format.

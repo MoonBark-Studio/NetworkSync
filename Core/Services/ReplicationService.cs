@@ -1,7 +1,8 @@
-using NetworkSync.Core.Interfaces;
-using NetworkSync.Core.Messages;
+using MoonBark.Framework.Logging;
+using MoonBark.NetworkSync.Core.Interfaces;
+using MoonBark.NetworkSync.Core.Messages;
 
-namespace NetworkSync.Core.Services;
+namespace MoonBark.NetworkSync.Core.Services;
 
 /// <summary>
 /// Delta-based replication service for efficient state synchronization.
@@ -22,8 +23,14 @@ public class ReplicationService : IReplicationService
 
     private bool _disposed;
 
+    private readonly IFrameworkLogger _logger;
+
     public ReplicationService(INetworkTransport transport)
+        : this(transport, new ConsoleFrameworkLogger("ReplicationService", FrameworkLogLevel.Debug)) { }
+
+    public ReplicationService(INetworkTransport transport, IFrameworkLogger logger)
     {
+        _logger = logger;
         _transport = transport;
         _changedCells = new HashSet<(int, int)>();
         _pendingPlacementChanges = new Dictionary<long, PlacementDeltaMessage.PlacementChange>();
@@ -92,7 +99,7 @@ public class ReplicationService : IReplicationService
     {
         if (!_transport.IsConnected)
         {
-            Console.WriteLine("[ReplicationService] Cannot publish placement delta: not connected");
+            _logger.Warning("Cannot publish placement delta: not connected");
             return;
         }
 
@@ -106,14 +113,14 @@ public class ReplicationService : IReplicationService
 
         // Broadcast to all clients (unreliable for high-frequency updates)
         await _transport.BroadcastAsync(delta, DeliveryMethod.Unreliable);
-        Console.WriteLine($"[ReplicationService] Published placement delta for tick {delta.TickNumber} with {delta.Changes.Count} changes");
+        _logger.Debug($"Published placement delta for tick {delta.TickNumber} with {delta.Changes.Count} changes");
     }
 
     public async Task PublishOccupancyDeltaAsync(OccupancyDeltaMessage delta)
     {
         if (!_transport.IsConnected)
         {
-            Console.WriteLine("[ReplicationService] Cannot publish occupancy delta: not connected");
+            _logger.Warning("Cannot publish occupancy delta: not connected");
             return;
         }
 
@@ -127,14 +134,14 @@ public class ReplicationService : IReplicationService
 
         // Broadcast to all clients (reliable for occupancy state)
         await _transport.BroadcastAsync(delta, DeliveryMethod.ReliableUnordered);
-        Console.WriteLine($"[ReplicationService] Published occupancy delta for tick {delta.TickNumber} with {delta.Changes.Count} changes");
+        _logger.Debug($"Published occupancy delta for tick {delta.TickNumber} with {delta.Changes.Count} changes");
     }
 
     public async Task RequestWorldSnapshotAsync()
     {
         if (!_transport.IsConnected)
         {
-            Console.WriteLine("[ReplicationService] Cannot request snapshot: not connected");
+            _logger.Warning("Cannot request snapshot: not connected");
             return;
         }
 
@@ -148,7 +155,7 @@ public class ReplicationService : IReplicationService
         // In a real implementation, this would be a dedicated request message
         // For now, we'll send the snapshot message as a request
         await _transport.SendAsync(0, request, DeliveryMethod.ReliableOrdered);
-        Console.WriteLine("[ReplicationService] Requested world snapshot");
+        _logger.Debug("Requested world snapshot");
     }
 
     public async Task ProcessPlacementDeltaAsync(PlacementDeltaMessage delta)
@@ -159,7 +166,7 @@ public class ReplicationService : IReplicationService
             foreach (var change in delta.Changes)
             {
                 MarkCellChanged(change.X, change.Y);
-                Console.WriteLine($"[ReplicationService] Processing placement change: ({change.X}, {change.Y}) {change.Type}");
+                _logger.Trace($"Processing placement change: ({change.X}, {change.Y}) {change.Type}");
             }
         }
 
@@ -175,7 +182,7 @@ public class ReplicationService : IReplicationService
             foreach (var change in delta.Changes)
             {
                 MarkCellChanged(change.X, change.Y);
-                Console.WriteLine($"[ReplicationService] Processing occupancy change: ({change.X}, {change.Y}) occupied={change.Occupied}");
+                _logger.Trace($"Processing occupancy change: ({change.X}, {change.Y}) occupied={change.Occupied}");
             }
         }
 
@@ -224,7 +231,7 @@ public class ReplicationService : IReplicationService
 
             case WorldSnapshotMessage snapshot:
                 WorldSnapshotReceived?.Invoke(this, new WorldSnapshotReceivedEventArgs { Snapshot = snapshot });
-                Console.WriteLine($"[ReplicationService] Received world snapshot for tick {snapshot.TickNumber}");
+                _logger.Info($"Received world snapshot for tick {snapshot.TickNumber}");
                 break;
         }
     }

@@ -1,9 +1,9 @@
-using NetworkSync.Tests.StressTests.Infrastructure;
-using NetworkSync.Tests.StressTests.Mocks;
+using MoonBark.NetworkSync.Tests.StressTests.Infrastructure;
+using MoonBark.NetworkSync.Tests.StressTests.Mocks;
 using Shouldly;
 using Xunit;
 
-namespace NetworkSync.Tests.StressTests;
+namespace MoonBark.NetworkSync.Tests.StressTests;
 
 public sealed class StressInfrastructureTests
 {

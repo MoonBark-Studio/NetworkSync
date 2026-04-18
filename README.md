@@ -50,8 +50,8 @@ See also:
 ### Server Setup
 
 ```csharp
-using NetworkSync.Core.Services;
-using NetworkSync.Core.Interfaces;
+using MoonBark.NetworkSync.Core.Services;
+using MoonBark.NetworkSync.Core.Interfaces;
 
 // Implement core occupancy provider
 public class ThistletideOccupancyProvider : ICoreOccupancyProvider
@@ -107,8 +107,8 @@ networkManager.ReplicationService.PlacementDeltaReceived += (sender, e) =>
 ### Client Setup
 
 ```csharp
-using NetworkSync.Core.Services;
-using NetworkSync.Core.Interfaces;
+using MoonBark.NetworkSync.Core.Services;
+using MoonBark.NetworkSync.Core.Interfaces;
 
 // Implement local occupancy validator
 public class ThistletideLocalValidator : ILocalOccupancyValidator

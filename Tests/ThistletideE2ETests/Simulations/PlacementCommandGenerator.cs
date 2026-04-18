@@ -1,4 +1,4 @@
-namespace NetworkSync.Tests.ThistletideE2E.Simulations;
+namespace MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations;
 
 /// <summary>
 /// Generates placement commands with configurable patterns.

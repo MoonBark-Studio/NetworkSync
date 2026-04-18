@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace NetworkSync.Tests.ThistletideE2E.Simulations;
+namespace MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations;
 
 /// <summary>
 /// Base class for all test simulations.

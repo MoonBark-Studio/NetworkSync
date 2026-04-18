@@ -1,7 +1,8 @@
-using NetworkSync.Core.Interfaces;
-using NetworkSync.Core.Messages;
+using MoonBark.Framework.Logging;
+using MoonBark.NetworkSync.Core.Interfaces;
+using MoonBark.NetworkSync.Core.Messages;
 
-namespace NetworkSync.Core.Services;
+namespace MoonBark.NetworkSync.Core.Services;
 
 /// <summary>
 /// Server-authoritative command validation and state management.
@@ -13,8 +14,14 @@ public class ServerAuthorityService : IServerAuthorityService
     private readonly Dictionary<long, PlacementResultMessage> _commandResults;
     private readonly object _lock = new();
 
+    private readonly IFrameworkLogger _logger;
+
     public ServerAuthorityService(ICoreOccupancyProvider occupancyProvider)
+        : this(occupancyProvider, new ConsoleFrameworkLogger("ServerAuthority", FrameworkLogLevel.Debug)) { }
+
+    public ServerAuthorityService(ICoreOccupancyProvider occupancyProvider, IFrameworkLogger logger)
     {
+        _logger = logger;
         _occupancyProvider = occupancyProvider;
         _commandResults = new Dictionary<long, PlacementResultMessage>();
     }
@@ -28,7 +35,7 @@ public class ServerAuthorityService : IServerAuthorityService
             command.StructureType
         );
 
-        Console.WriteLine($"[ServerAuthority] Validating placement at ({command.X}, {command.Y}): {isValid}");
+        _logger.Debug($"Validating placement at ({command.X}, {command.Y}): {isValid}");
         return isValid;
     }
 
@@ -62,7 +69,7 @@ public class ServerAuthorityService : IServerAuthorityService
             _commandResults[command.CommandId] = result;
         }
 
-        Console.WriteLine($"[ServerAuthority] Applied placement command {command.CommandId}: {result.Success}");
+        _logger.Debug($"Applied placement command {command.CommandId}: {result.Success}");
         return result;
     }
 

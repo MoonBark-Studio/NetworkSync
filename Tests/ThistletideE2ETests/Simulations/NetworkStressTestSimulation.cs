@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using NetworkSync.Tests.ThistletideE2E.Components;
-using NetworkSync.Tests.ThistletideE2E.Metrics;
+using MoonBark.NetworkSync.Tests.ThistletideE2E.Components;
+using MoonBark.NetworkSync.Tests.ThistletideE2E.Metrics;
 
-namespace NetworkSync.Tests.ThistletideE2E.Simulations;
+namespace MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations;
 
 /// <summary>
 /// Network stress test simulation using component-based architecture.

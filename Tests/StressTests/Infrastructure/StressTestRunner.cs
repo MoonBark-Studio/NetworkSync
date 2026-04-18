@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace NetworkSync.Tests.StressTests.Infrastructure;
+namespace MoonBark.NetworkSync.Tests.StressTests.Infrastructure;
 
 /// <summary>
 /// Orchestrates stress tests with multiple concurrent clients.

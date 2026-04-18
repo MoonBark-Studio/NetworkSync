@@ -1,9 +1,9 @@
-using NetworkSync.Core.Interfaces;
-using NetworkSync.Core.Messages;
-using NetworkSync.Core.Services;
-using NetworkSync.Tests.StressTests.Mocks;
+using MoonBark.NetworkSync.Core.Interfaces;
+using MoonBark.NetworkSync.Core.Messages;
+using MoonBark.NetworkSync.Core.Services;
+using MoonBark.NetworkSync.Tests.StressTests.Mocks;
 
-namespace NetworkSync.Tests.StressTests.Infrastructure;
+namespace MoonBark.NetworkSync.Tests.StressTests.Infrastructure;
 
 /// <summary>
 /// Test client for stress testing that can connect to server and send placement commands.

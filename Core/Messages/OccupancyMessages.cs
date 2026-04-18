@@ -1,6 +1,6 @@
-using NetworkSync.Core.Interfaces;
+using MoonBark.NetworkSync.Core.Interfaces;
 
-namespace NetworkSync.Core.Messages;
+namespace MoonBark.NetworkSync.Core.Messages;
 
 /// <summary>
 /// Represents a delta of placement changes to replicate.

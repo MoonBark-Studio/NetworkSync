@@ -1,4 +1,4 @@
-namespace NetworkSync.Tests.ThistletideE2E.Simulations;
+namespace MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations;
 
 /// <summary>
 /// Self-contained GOAP evaluation for tower defense game balance and progression.

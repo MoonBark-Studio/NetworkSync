@@ -1,7 +1,7 @@
 using System.Diagnostics;
-using NetworkSync.Tests.StressTests.Infrastructure;
+using MoonBark.NetworkSync.Tests.StressTests.Infrastructure;
 
-namespace NetworkSync.Tests.StressTests;
+namespace MoonBark.NetworkSync.Tests.StressTests;
 
 /// <summary>
 /// Main entry point for NetworkSync stress tests.

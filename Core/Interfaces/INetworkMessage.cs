@@ -1,4 +1,4 @@
-namespace NetworkSync.Core.Interfaces;
+namespace MoonBark.NetworkSync.Core.Interfaces;
 
 /// <summary>
 /// Base interface for all network messages.

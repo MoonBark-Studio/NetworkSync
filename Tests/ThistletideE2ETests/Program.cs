@@ -1,6 +1,6 @@
-using NetworkSync.Tests.ThistletideE2E.Simulations;
+using MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations;
 
-namespace NetworkSync.Tests.ThistletideE2E;
+namespace MoonBark.NetworkSync.Tests.ThistletideE2E;
 
 /// <summary>
 /// E2E Tests for Thistletide network sync using Thistletide occupancy map API.

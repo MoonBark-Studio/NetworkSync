@@ -1,6 +1,6 @@
-using NetworkSync.Tests.ThistletideE2E.ThistletideMock;
+using MoonBark.NetworkSync.Tests.ThistletideE2E.ThistletideMock;
 
-namespace NetworkSync.Tests.ThistletideE2E.Components;
+namespace MoonBark.NetworkSync.Tests.ThistletideE2E.Components;
 
 /// <summary>
 /// Component implementation for occupancy map operations.

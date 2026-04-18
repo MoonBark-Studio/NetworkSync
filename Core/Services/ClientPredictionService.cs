@@ -1,7 +1,8 @@
-using NetworkSync.Core.Interfaces;
-using NetworkSync.Core.Messages;
+using MoonBark.Framework.Logging;
+using MoonBark.NetworkSync.Core.Interfaces;
+using MoonBark.NetworkSync.Core.Messages;
 
-namespace NetworkSync.Core.Services;
+namespace MoonBark.NetworkSync.Core.Services;
 
 /// <summary>
 /// Client-side prediction and reconciliation service.
@@ -14,8 +15,14 @@ public class ClientPredictionService : IClientPredictionService
     private readonly ILocalOccupancyValidator _localValidator;
     private readonly object _lock = new();
 
+    private readonly IFrameworkLogger _logger;
+
     public ClientPredictionService(ILocalOccupancyValidator localValidator)
+        : this(localValidator, new ConsoleFrameworkLogger("ClientPrediction", FrameworkLogLevel.Debug)) { }
+
+    public ClientPredictionService(ILocalOccupancyValidator localValidator, IFrameworkLogger logger)
     {
+        _logger = logger;
         _predictions = new Dictionary<long, PredictedPlacementMessage>();
         _pendingCommands = new Dictionary<long, PlacementResultMessage>();
         _localValidator = localValidator;
@@ -55,7 +62,7 @@ public class ClientPredictionService : IClientPredictionService
             _pendingCommands[command.CommandId] = result;
         }
 
-        Console.WriteLine($"[ClientPrediction] Predicted placement {command.CommandId}: {result.Success}");
+        _logger.Debug($"Predicted placement {command.CommandId}: {result.Success}");
         return result;
     }
 
@@ -64,7 +71,7 @@ public class ClientPredictionService : IClientPredictionService
         if (serverResult.Success == predictedResult.Success)
         {
             // Prediction was correct - no reconciliation needed
-            Console.WriteLine($"[ClientPrediction] Prediction correct for command {serverResult.CommandId}");
+            _logger.Debug($"Prediction correct for command {serverResult.CommandId}");
             lock (_lock)
             {
                 _predictions.Remove(serverResult.CommandId);
@@ -74,9 +81,9 @@ public class ClientPredictionService : IClientPredictionService
         }
 
         // Prediction was wrong - reconcile
-        Console.WriteLine($"[ClientPrediction] Prediction incorrect for command {serverResult.CommandId}");
-        Console.WriteLine($"[ClientPrediction]   Predicted: {predictedResult.Success}");
-        Console.WriteLine($"[ClientPrediction]   Server: {serverResult.Success}");
+        _logger.Warning($"Prediction incorrect for command {serverResult.CommandId}");
+        _logger.Debug($"  Predicted: {predictedResult.Success}");
+        _logger.Debug($"  Server: {serverResult.Success}");
 
         lock (_lock)
         {

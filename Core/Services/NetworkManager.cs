@@ -1,9 +1,10 @@
-using NetworkSync.Core.Interfaces;
-using NetworkSync.Core.Messages;
-using NetworkSync.Core.Services;
-using NetworkSync.Core.Transports;
+using MoonBark.NetworkSync.Core.Interfaces;
+using MoonBark.NetworkSync.Core.Messages;
+using MoonBark.NetworkSync.Core.Services;
+using MoonBark.Framework.Logging;
+using MoonBark.NetworkSync.Core.Transports;
 
-namespace NetworkSync.Core.Services;
+namespace MoonBark.NetworkSync.Core.Services;
 
 /// <summary>
 /// Main network manager that coordinates all networking services.
@@ -11,10 +12,13 @@ namespace NetworkSync.Core.Services;
 /// </summary>
 public sealed class NetworkManager : IDisposable
 {
+    private const int TargetFrameTimeMs = 16;
+
     private readonly LiteNetTransport _transport;
     private readonly ReplicationService _replicationService;
     private readonly ServerAuthorityService? _serverAuthority;
     private readonly ClientPredictionService? _clientPrediction;
+    private readonly IFrameworkLogger _logger;
     private readonly CancellationTokenSource _cancellationTokenSource;
     private Task? _updateLoop;
 
@@ -107,6 +111,7 @@ public sealed class NetworkManager : IDisposable
         _replicationService = replicationService;
         _serverAuthority = serverAuthority;
         _clientPrediction = clientPrediction;
+        _logger = new ConsoleFrameworkLogger("NetworkManager", FrameworkLogLevel.Debug);
         _cancellationTokenSource = new CancellationTokenSource();
 
         // Subscribe to transport events
@@ -197,7 +202,7 @@ public sealed class NetworkManager : IDisposable
             while (!_cancellationTokenSource.Token.IsCancellationRequested)
             {
                 await UpdateAsync(_cancellationTokenSource.Token);
-                await Task.Delay(16, _cancellationTokenSource.Token); // ~60 FPS
+                await Task.Delay(TargetFrameTimeMs, _cancellationTokenSource.Token);
             }
         });
     }
@@ -219,13 +224,13 @@ public sealed class NetworkManager : IDisposable
 
     private void OnPeerConnected(object? sender, PeerConnectedEventArgs e)
     {
-        Console.WriteLine($"[NetworkManager] Peer {e.PeerId} connected from {e.EndPoint}");
+        _logger.Info($"Peer {e.PeerId} connected from {e.EndPoint}");
         PeerConnected?.Invoke(this, e);
     }
 
     private void OnPeerDisconnected(object? sender, PeerDisconnectedEventArgs e)
     {
-        Console.WriteLine($"[NetworkManager] Peer {e.PeerId} disconnected: {e.Reason}");
+        _logger.Info($"Peer {e.PeerId} disconnected: {e.Reason}");
         PeerDisconnected?.Invoke(this, e);
     }
 

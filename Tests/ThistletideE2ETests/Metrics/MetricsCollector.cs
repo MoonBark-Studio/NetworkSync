@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace NetworkSync.Tests.ThistletideE2E.Metrics;
+namespace MoonBark.NetworkSync.Tests.ThistletideE2E.Metrics;
 
 /// <summary>
 /// Individual metric collector for a specific metric type.

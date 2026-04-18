@@ -1,7 +1,7 @@
-using NetworkSync.Core.Services;
-using NetworkSync.Core.Messages;
+using MoonBark.NetworkSync.Core.Services;
+using MoonBark.NetworkSync.Core.Messages;
 
-namespace NetworkSync.Tests.StressTests.Mocks;
+namespace MoonBark.NetworkSync.Tests.StressTests.Mocks;
 
 /// <summary>
 /// Thread-safe in-memory occupancy provider for stress testing.

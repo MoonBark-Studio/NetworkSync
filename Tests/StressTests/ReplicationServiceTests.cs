@@ -1,11 +1,11 @@
-using NetworkSync.Core.Interfaces;
-using NetworkSync.Core.Messages;
-using NetworkSync.Core.Services;
-using NetworkSync.Tests.StressTests.Mocks;
+using MoonBark.NetworkSync.Core.Interfaces;
+using MoonBark.NetworkSync.Core.Messages;
+using MoonBark.NetworkSync.Core.Services;
+using MoonBark.NetworkSync.Tests.StressTests.Mocks;
 using Shouldly;
 using Xunit;
 
-namespace NetworkSync.Tests.StressTests;
+namespace MoonBark.NetworkSync.Tests.StressTests;
 
 public sealed class ReplicationServiceTests
 {

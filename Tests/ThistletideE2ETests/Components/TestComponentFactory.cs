@@ -1,6 +1,6 @@
-using NetworkSync.Tests.ThistletideE2E.Components;
+using MoonBark.NetworkSync.Tests.ThistletideE2E.Components;
 
-namespace NetworkSync.Tests.ThistletideE2E;
+namespace MoonBark.NetworkSync.Tests.ThistletideE2E;
 
 /// <summary>
 /// Factory for creating test components with dependency injection.

@@ -2,10 +2,11 @@ using System.Net;
 using System.Net.Sockets;
 using LiteNetLib;
 using LiteNetLib.Utils;
-using NetworkSync.Core.Interfaces;
-using NetworkSync.Core.Messages;
+using MoonBark.NetworkSync.Core.Interfaces;
+using MoonBark.Framework.Logging;
+using MoonBark.NetworkSync.Core.Messages;
 
-namespace NetworkSync.Core.Transports;
+namespace MoonBark.NetworkSync.Core.Transports;
 
 /// <summary>
 /// LiteNetLib-based network transport implementation.
@@ -13,12 +14,17 @@ namespace NetworkSync.Core.Transports;
 /// </summary>
 public class LiteNetTransport : INetworkTransport, INetEventListener
 {
+    private const string DefaultGameVersion = "1.0.0";
+    private const int DefaultUpdateTime = 15;
+    private const int DefaultDisconnectTimeoutMs = 30000;
+    private const int HandshakeTimeoutSeconds = 5;
+
     private NetManager? _netManager;
     private NetPeer? _serverPeer;
     private readonly Dictionary<int, NetPeer> _connectedPeers;
     private readonly Dictionary<byte, Func<INetworkMessage>> _messageFactories;
     private int _nextPeerId;
-    private string _gameVersion = "1.0.0"; // Default version, should be configurable
+    private string _gameVersion = DefaultGameVersion;
     private TaskCompletionSource<bool>? _connectionCompletionSource;
 
     public bool IsConnected => _netManager != null && _netManager.IsRunning && ConnectionState == NetworkConnectionState.Connected;
@@ -35,11 +41,16 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
     public string GameVersion
     {
         get => _gameVersion;
-        set => _gameVersion = value ?? "1.0.0";
+        set => _gameVersion = value ?? DefaultGameVersion;
     }
 
-    public LiteNetTransport()
+    private readonly IFrameworkLogger _logger;
+
+    public LiteNetTransport() : this(new ConsoleFrameworkLogger("LiteNetTransport", FrameworkLogLevel.Debug)) { }
+
+    public LiteNetTransport(IFrameworkLogger logger)
     {
+        _logger = logger;
         _connectedPeers = new Dictionary<int, NetPeer>();
         _messageFactories = CreateMessageFactories();
         ConnectionState = NetworkConnectionState.Disconnected;
@@ -76,20 +87,20 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
             _netManager = new NetManager(this)
             {
                 AutoRecycle = true,
-                UpdateTime = 15,
-                DisconnectTimeout = 30000,
+                UpdateTime = DefaultUpdateTime,
+                DisconnectTimeout = DefaultDisconnectTimeoutMs,
                 UseNativeSockets = true
             };
 
             if (_netManager.Start(port))
             {
                 ConnectionState = NetworkConnectionState.Connected;
-                Console.WriteLine($"[LiteNetTransport] Server started on port {port}");
+                _logger.Info($"Server started on port {port}");
             }
             else
             {
                 ConnectionState = NetworkConnectionState.Disconnected;
-                Console.WriteLine($"[LiteNetTransport] Failed to start server on port {port}");
+                _logger.Error($"Failed to start server on port {port}");
             }
         }, cancellationToken);
     }
@@ -110,15 +121,15 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
             _netManager = new NetManager(this)
             {
                 AutoRecycle = true,
-                UpdateTime = 15,
-                DisconnectTimeout = 30000,
+                UpdateTime = DefaultUpdateTime,
+                DisconnectTimeout = DefaultDisconnectTimeoutMs,
                 UseNativeSockets = true
             };
 
             _netManager.Start();
 
             _serverPeer = _netManager.Connect(host, port, "ThistletideClient");
-            Console.WriteLine($"[LiteNetTransport] Connecting to {host}:{port}...");
+            _logger.Info($"Connecting to {host}:{port}...");
         }, cancellationToken);
 
         // Wait for connection to be established
@@ -130,7 +141,7 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
         // Wait for version handshake to complete
         if (ConnectionState == NetworkConnectionState.Connected)
         {
-            bool handshakeComplete = await _connectionCompletionSource.Task.WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
+            bool handshakeComplete = await _connectionCompletionSource.Task.WaitAsync(TimeSpan.FromSeconds(HandshakeTimeoutSeconds), cancellationToken);
             if (!handshakeComplete)
             {
                 await DisconnectAsync();
@@ -143,13 +154,13 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
     {
         if (!IsConnected)
         {
-            Console.WriteLine($"[LiteNetTransport] Cannot send message: not connected");
+            _logger.Warning("Cannot send message: not connected");
             return Task.CompletedTask;
         }
 
         if (!_connectedPeers.TryGetValue(peerId, out var peer))
         {
-            Console.WriteLine($"[LiteNetTransport] Cannot send message: peer {peerId} not found");
+            _logger.Warning($"Cannot send message: peer {peerId} not found");
             return Task.CompletedTask;
         }
 
@@ -166,7 +177,7 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
     {
         if (!IsConnected)
         {
-            Console.WriteLine($"[LiteNetTransport] Cannot broadcast message: not connected");
+            _logger.Warning("Cannot broadcast message: not connected");
             return Task.CompletedTask;
         }
 
@@ -208,7 +219,7 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
                 }
 
                 _netManager.Stop();
-                Console.WriteLine("[LiteNetTransport] Disconnected");
+                _logger.Info("Disconnected");
             });
         }
 
@@ -226,7 +237,7 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
             // Server assigns peer IDs
             peerId = _nextPeerId++;
             _connectedPeers[peerId] = peer;
-            Console.WriteLine($"[LiteNetTransport] Client connected: {peer.EndPoint} (Peer ID: {peerId})");
+            _logger.Info($"Client connected: {peer.EndPoint} (Peer ID: {peerId})");
 
             // Server waits for client's ConnectRequest message
             // Version validation will happen in OnNetworkReceive
@@ -238,7 +249,7 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
             _serverPeer = peer;
             _connectedPeers[peerId] = peer;
             ConnectionState = NetworkConnectionState.Connected;
-            Console.WriteLine($"[LiteNetTransport] Connected to server: {peer.EndPoint}");
+            _logger.Info($"Connected to server: {peer.EndPoint}");
 
             // Send ConnectRequest with game version
             var connectRequest = new ConnectRequestMessage
@@ -263,7 +274,7 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
         if (peerId.HasValue)
         {
             _connectedPeers.Remove(peerId.Value);
-            Console.WriteLine($"[LiteNetTransport] Peer {peerId.Value} disconnected: {disconnectInfo.Reason}");
+            _logger.Info($"Peer {peerId.Value} disconnected: {disconnectInfo.Reason}");
 
             PeerDisconnected?.Invoke(this, new PeerDisconnectedEventArgs
             {
@@ -313,12 +324,12 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
     {
         if (!IsServer)
         {
-            Console.WriteLine("[LiteNetTransport] Received ConnectRequest on client - ignoring");
+            _logger.Debug("Received ConnectRequest on client - ignoring");
             return;
         }
 
         int peerId = _connectedPeers.FirstOrDefault(kvp => kvp.Value == peer).Key;
-        Console.WriteLine($"[LiteNetTransport] Received ConnectRequest from peer {peerId}: version {request.GameVersion}");
+        _logger.Info($"Received ConnectRequest from peer {peerId}: version {request.GameVersion}");
 
         var response = new ConnectResponseMessage
         {
@@ -331,12 +342,12 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
         {
             response.Accepted = false;
             response.RejectReason = $"Game version mismatch: client version {request.GameVersion} does not match server version {_gameVersion}";
-            Console.WriteLine($"[LiteNetTransport] Rejecting connection from peer {peerId}: {response.RejectReason}");
+            _logger.Warning($"Rejecting connection from peer {peerId}: {response.RejectReason}");
         }
         else
         {
             response.Accepted = true;
-            Console.WriteLine($"[LiteNetTransport] Accepting connection from peer {peerId}: version {request.GameVersion}");
+            _logger.Info($"Accepting connection from peer {peerId}: version {request.GameVersion}");
         }
 
         // Send response
@@ -357,11 +368,11 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
     {
         if (IsServer)
         {
-            Console.WriteLine("[LiteNetTransport] Received ConnectResponse on server - ignoring");
+            _logger.Debug("Received ConnectResponse on server - ignoring");
             return;
         }
 
-        Console.WriteLine($"[LiteNetTransport] Received ConnectResponse: accepted={response.Accepted}, reason={response.RejectReason}");
+        _logger.Info($"Received ConnectResponse: accepted={response.Accepted}, reason={response.RejectReason}");
 
         if (response.Accepted)
         {
@@ -387,7 +398,7 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
 
     public void OnNetworkError(IPEndPoint endPoint, SocketError socketError)
     {
-        Console.WriteLine($"[LiteNetTransport] Network error: {endPoint} - {socketError}");
+        _logger.Error($"Network error: {endPoint} - {socketError}");
     }
 
     public void OnConnectionRequest(ConnectionRequest request)

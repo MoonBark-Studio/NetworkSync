@@ -1,6 +1,6 @@
-using NetworkSync.Core.Interfaces;
+using MoonBark.NetworkSync.Core.Interfaces;
 
-namespace NetworkSync.Tests.StressTests.Mocks;
+namespace MoonBark.NetworkSync.Tests.StressTests.Mocks;
 
 /// <summary>
 /// In-memory transport double for deterministic replication tests.

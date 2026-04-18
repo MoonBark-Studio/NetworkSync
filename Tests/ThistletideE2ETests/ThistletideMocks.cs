@@ -1,4 +1,4 @@
-namespace NetworkSync.Tests.ThistletideE2E.ThistletideMock;
+namespace MoonBark.NetworkSync.Tests.ThistletideE2E.ThistletideMock;
 
 /// <summary>
 /// Mock implementation of Thistletide's TrackedPlacementOccupancyMap for testing.

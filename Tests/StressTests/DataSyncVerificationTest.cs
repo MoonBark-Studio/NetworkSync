@@ -1,9 +1,9 @@
-using NetworkSync.Core.Messages;
-using NetworkSync.Core.Services;
-using NetworkSync.Tests.StressTests.Infrastructure;
-using NetworkSync.Tests.StressTests.Mocks;
+using MoonBark.NetworkSync.Core.Messages;
+using MoonBark.NetworkSync.Core.Services;
+using MoonBark.NetworkSync.Tests.StressTests.Infrastructure;
+using MoonBark.NetworkSync.Tests.StressTests.Mocks;
 
-namespace NetworkSync.Tests.StressTests;
+namespace MoonBark.NetworkSync.Tests.StressTests;
 
 /// <summary>
 /// End-to-end tests for verifying data synchronization between server and clients.

@@ -1,7 +1,7 @@
 using System.Diagnostics;
-using NetworkSync.Tests.ThistletideE2E.Simulations;
+using MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations;
 
-namespace NetworkSync.Tests.ThistletideE2E;
+namespace MoonBark.NetworkSync.Tests.ThistletideE2E;
 
 public sealed class ThistletideTestMetrics
 {

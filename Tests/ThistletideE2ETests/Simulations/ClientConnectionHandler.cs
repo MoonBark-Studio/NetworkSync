@@ -1,6 +1,6 @@
-using NetworkSync.Tests.ThistletideE2E.Components;
+using MoonBark.NetworkSync.Tests.ThistletideE2E.Components;
 
-namespace NetworkSync.Tests.ThistletideE2E.Simulations;
+namespace MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations;
 
 /// <summary>
 /// Handles client connections with configurable batch processing.

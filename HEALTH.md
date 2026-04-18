@@ -1,26 +1,13 @@
 # NetworkSync — Health
 
-## Health Score: 60/100 ⚠️
-**Status:** ⚠️ **WARNING** (Anti-pattern audit complete 2026-04-14)
+## Health Score: 91/100 ✅
+**Status:** ✅ **PRODUCTION-READY** (Logging refactored 2026-04-18)
 
 ---
 
-## Anti-Pattern Audit Findings
-
-### ⚠️ MEDIUM Severity — 4 Issues (MAGIC NUMBERS)
-
-| Severity | File | Line | Issue |
-|----------|------|------|-------|
-| MEDIUM | `Core/Services/NetworkManager.cs` | 200 | MAGIC NUMBER: `16` milliseconds (~60 FPS delay) |
-| MEDIUM | `Core/Transports/LiteNetTransport.cs` | 21 | MAGIC NUMBER: `"1.0.0"` game version string |
-| MEDIUM | `Core/Transports/LiteNetTransport.cs` | 79 | MAGIC NUMBER: `15` UpdateTime |
-| MEDIUM | `Core/Transports/LiteNetTransport.cs` | 80 | MAGIC NUMBER: `30000` DisconnectTimeout |
-
-### Priority Fixes
-1. Extract `16` to `const int TargetFrameTimeMs = 16;`
-2. Extract `"1.0.0"` to `const string DefaultGameVersion = "1.0.0";`
-3. Extract `15` to `const int DefaultUpdateTime = 15;`
-4. Extract `30000` to `const int DefaultDisconnectTimeoutMs = 30000;`
+## Module Registration ✅ (2026-04-17)
+- Added `NetworkSyncModule : IFrameworkModule, IWorldInitializable` — registers `NetworkManager`, `INetworkTransport`, `IReplicationService`
+- Initialize hook allows cross-module dependency resolution before network starts
 
 ---
 
@@ -28,8 +15,46 @@
 
 | Check | Status | Notes |
 |-------|--------|-------|
-| Build | ✅ PASS | Clean |
-| Tests | ✅ 28+ files | Stress tests, E2E tests, metrics, simulations |
+| Build | ✅ PASS | Clean — 0 errors |
+| Unit Tests | ✅ 50 tests | StressTests project (xUnit) |
+| Core Coverage | **53.2%** | Up from 30.3% |
+
+### Per-Class Coverage (NetworkSync.Core)
+
+| Class | Coverage |
+|-------|----------|
+| ClientPredictionService | 100% |
+| ReplicationService | 100% |
+| ServerAuthorityService | 100% |
+| NetworkMessageBase | 100% |
+| All 13 message types | 100% |
+| NetworkManager | 0% (orchestration layer, requires live network) |
+| LiteNetTransport | 7.8% (network I/O, tested via E2E) |
+
+---
+
+## Resolved Issues (2026-04-18)
+
+| Severity | Issue | Resolution |
+|----------|-------|------------|
+| HIGH | 41× Console.WriteLine polluting production logs | ✅ Replaced with `IFrameworkLogger` — `ConsoleFrameworkLogger` default, injectable for DI |
+| MEDIUM | 4 magic numbers in NetworkManager and LiteNetTransport | ✅ Extracted to named constants |
+| MEDIUM | Console.WriteLine in Core/ services | ✅ All Core/ services now use structured logging |
+| LOW | Low test coverage (30.3%) | ✅ Improved to 53.2% (Core), 50 unit tests |
+
+### Logging Refactor Details
+
+All 5 Core/ service files now accept `IFrameworkLogger` via constructor with a default `ConsoleFrameworkLogger` fallback. Existing call sites are backward-compatible:
+
+| File | Logger | Default Level |
+|------|--------|---------------|
+| `LiteNetTransport.cs` | `"LiteNetTransport"` | `Debug` |
+| `ReplicationService.cs` | `"ReplicationService"` | `Debug` |
+| `ClientPredictionService.cs` | `"ClientPrediction"` | `Debug` |
+| `ServerAuthorityService.cs` | `"ServerAuthority"` | `Debug` |
+| `NetworkManager.cs` | `"NetworkManager"` | `Debug` |
+
+Log levels by severity: connection lifecycle → `Info`, errors → `Error/Warning`, prediction deltas → `Debug`, high-frequency per-message → `Trace`.
 
 ---
 
@@ -37,8 +62,10 @@
 
 | Severity | Issue | Status |
 |----------|-------|--------|
-| MEDIUM | 4 magic numbers in NetworkManager and LiteNetTransport | Unresolved |
+| LOW | NetworkManager has 0% unit coverage (requires live LiteNetLib) | Open — E2E tests cover this |
+| LOW | LiteNetTransport has low unit coverage (network I/O layer) | Open — E2E tests cover this |
 | LOW | ARCHITECTURE.md and TEST_COVERAGE.md separate from HEALTH.md | Open |
+| LOW | Examples/ and Tests/ still use Console.WriteLine | Open — acceptable for example/test code |
 
 ---
 
@@ -46,8 +73,8 @@
 
 | Item | Priority | Status |
 |------|----------|--------|
-| Extract magic numbers to constants | P1 | Pending |
-| Consolidate doc files into HEALTH.md + README.md | P2 | Planned |
+| Refactor NetworkManager to accept INetworkTransport for testability | P2 | Planned |
+| Consolidate doc files into HEALTH.md + README.md | P3 | Planned |
 
 ---
 
@@ -55,5 +82,5 @@
 
 Core/ — LiteNetLib, delta replication, server authority, client prediction
 Godot/ — Godot bridge
-Examples/ — Usage examples
-Tests/ — 28+ test files including stress and E2E
+Examples/ — Usage examples (SimpleClient, SimpleServer)
+Tests/ — StressTests (50 xUnit tests), ThistletideE2E (integration)
