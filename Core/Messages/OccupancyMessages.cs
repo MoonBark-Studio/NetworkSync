@@ -38,7 +38,7 @@ public class PlacementDeltaMessage : NetworkMessageBase
         /// <summary>
         /// The type of change (add/remove).
         /// </summary>
-        public ChangeType Type { get; set; }
+        public PlacementDeltaChangeType Type { get; set; }
 
         /// <summary>
         /// The structure type (for additions).
@@ -52,8 +52,9 @@ public class PlacementDeltaMessage : NetworkMessageBase
     }
 
     /// <summary>
-    /// The type of placement change.
+    /// The type of placement change (for backward compatibility).
     /// </summary>
+    [Obsolete("Use PlacementDeltaChangeType instead.")]
     public enum ChangeType
     {
         Added,
@@ -176,14 +177,4 @@ public class RegionOccupancyMessage : NetworkMessageBase
     /// The occupancy data for the region (row-major order).
     /// </summary>
     public List<CellOccupancyData> Cells { get; set; } = new();
-
-    /// <summary>
-    /// Represents occupancy data for a single cell.
-    /// </summary>
-    public class CellOccupancyData
-    {
-        public bool Occupied { get; set; }
-        public long? EntityId { get; set; }
-        public long? StructureId { get; set; }
-    }
 }

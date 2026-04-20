@@ -88,7 +88,7 @@ public class StressTestServer : IDisposable
         }
     }
 
-    private async void HandlePlacementCommand(int peerId, PlacementCommandMessage command)
+    private async Task HandlePlacementCommand(int peerId, PlacementCommandMessage command)
     {
         PlacementCommandReceived?.Invoke(this, (peerId, command));
 

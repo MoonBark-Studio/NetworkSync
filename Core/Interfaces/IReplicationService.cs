@@ -82,27 +82,3 @@ public interface IReplicationService
     /// </summary>
     void ClearChangedCells();
 }
-
-/// <summary>
-/// Event arguments for placement delta received events.
-/// </summary>
-public class PlacementDeltaReceivedEventArgs : EventArgs
-{
-    public Messages.PlacementDeltaMessage Delta { get; set; } = null!;
-}
-
-/// <summary>
-/// Event arguments for occupancy delta received events.
-/// </summary>
-public class OccupancyDeltaReceivedEventArgs : EventArgs
-{
-    public Messages.OccupancyDeltaMessage Delta { get; set; } = null!;
-}
-
-/// <summary>
-/// Event arguments for world snapshot received events.
-/// </summary>
-public class WorldSnapshotReceivedEventArgs : EventArgs
-{
-    public Messages.WorldSnapshotMessage Snapshot { get; set; } = null!;
-}
