@@ -10,12 +10,12 @@ namespace MoonBark.NetworkSync.Examples.SimpleClient;
 /// </summary>
 public class ExampleLocalValidator : ILocalOccupancyValidator
 {
-    private readonly Dictionary<(int x, int y), CellOccupancyData> _localOccupancy;
+    private readonly Dictionary<(int x, int y), MoonBark.NetworkSync.Core.Messages.CellOccupancyData> _localOccupancy;
     private readonly object _lock = new();
 
     public ExampleLocalValidator()
     {
-        _localOccupancy = new Dictionary<(int, int), CellOccupancyData>();
+        _localOccupancy = new Dictionary<(int, int), MoonBark.NetworkSync.Core.Messages.CellOccupancyData>();
     }
 
     public bool IsPlacementValidLocally(int x, int y, string structureType)
@@ -47,7 +47,7 @@ public class ExampleLocalValidator : ILocalOccupancyValidator
         {
             if (occupied)
             {
-                _localOccupancy[(x, y)] = new CellOccupancyData
+                _localOccupancy[(x, y)] = new MoonBark.NetworkSync.Core.Messages.CellOccupancyData
                 {
                     Occupied = true,
                     EntityId = entityId,
@@ -66,11 +66,11 @@ public class ExampleLocalValidator : ILocalOccupancyValidator
     /// <summary>
     /// Gets the current local occupancy map for debugging.
     /// </summary>
-    public Dictionary<(int x, int y), CellOccupancyData> GetLocalOccupancy()
+    public Dictionary<(int x, int y), MoonBark.NetworkSync.Core.Messages.CellOccupancyData> GetLocalOccupancy()
     {
         lock (_lock)
         {
-            return new Dictionary<(int, int), CellOccupancyData>(_localOccupancy);
+            return new Dictionary<(int, int), MoonBark.NetworkSync.Core.Messages.CellOccupancyData>(_localOccupancy);
         }
     }
 }

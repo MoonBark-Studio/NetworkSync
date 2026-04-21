@@ -1,6 +1,7 @@
 using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Messages;
 using MoonBark.NetworkSync.Core.Services;
+using CellOccupancyData = MoonBark.NetworkSync.Core.Services.CellOccupancyData;
 
 namespace MoonBark.NetworkSync.Examples.SimpleServer;
 
@@ -229,8 +230,8 @@ public class SimpleServerExample
             {
                 snapshot.Placements.Add(new WorldSnapshotMessage.PlacementSnapshotEntry
                 {
-                    X = kvp.Value.x,
-                    Y = kvp.Value.y,
+                    X = kvp.Key.x,
+                    Y = kvp.Key.y,
                     StructureType = "Structure",
                     Rotation = 0,
                     StructureId = kvp.Value.StructureId.Value
@@ -239,8 +240,8 @@ public class SimpleServerExample
 
             snapshot.Occupancy.Add(new WorldSnapshotMessage.OccupancySnapshotEntry
             {
-                X = kvp.Value.x,
-                Y = kvp.Value.y,
+                X = kvp.Key.x,
+                Y = kvp.Key.y,
                 Occupied = kvp.Value.Occupied,
                 EntityId = kvp.Value.EntityId,
                 StructureId = kvp.Value.StructureId

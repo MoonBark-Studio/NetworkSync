@@ -241,7 +241,7 @@ public sealed class NetworkMessageSerializationTests
             ChunkX = 3,
             ChunkY = 4,
             ChunkSize = 16,
-            Terrain = new List<ChunkDeltaMessage.TerrainCellData>
+            Terrain = new List<TerrainCellData>
             {
                 new() { LocalX = 0, LocalY = 0, TerrainType = "Grass", Blocked = false },
                 new() { LocalX = 1, LocalY = 0, TerrainType = "Water", Blocked = true }

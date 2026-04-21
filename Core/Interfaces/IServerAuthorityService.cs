@@ -1,3 +1,5 @@
+using MoonBark.NetworkSync.Core.Services;
+
 namespace MoonBark.NetworkSync.Core.Interfaces;
 
 /// <summary>
@@ -69,4 +71,19 @@ public interface IClientPredictionService
     /// Clears all predicted placements.
     /// </summary>
     void ClearPredictions();
+
+    /// <summary>
+    /// Gets a pending command result by command ID.
+    /// </summary>
+    Messages.PlacementResultMessage? GetPendingCommandResult(long commandId);
+
+    /// <summary>
+    /// Marks a command as completed (server response received).
+    /// </summary>
+    void MarkCommandCompleted(long commandId);
+
+    /// <summary>
+    /// Event raised when a prediction mismatches the server result.
+    /// </summary>
+    event EventHandler<PredictionMismatchEventArgs>? PredictionMismatch;
 }

@@ -1,6 +1,7 @@
 using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Messages;
 using MoonBark.NetworkSync.Core.Services;
+using CellOccupancyData = MoonBark.NetworkSync.Core.Services.CellOccupancyData;
 using MoonBark.NetworkSync.Tests.ThistletideE2E.Components;
 using MoonBark.NetworkSync.Tests.ThistletideE2E.ThistletideMock;
 
