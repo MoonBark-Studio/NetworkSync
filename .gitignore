@@ -1,4 +1,12 @@
-﻿# Build results
+# Godot
+.godot/
+.import/
+export_presets.cfg
+*.tscn.cache
+*.tres.cache
+*.import
+
+# Build results
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
