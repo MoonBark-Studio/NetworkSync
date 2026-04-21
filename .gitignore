@@ -60,3 +60,6 @@ BenchmarkDotNet.Artifacts/
 
 bin/
 obj/
+
+# Godot artifacts (added by workspace audit)
+.git/
