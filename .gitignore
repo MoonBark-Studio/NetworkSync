@@ -1,4 +1,5 @@
 # Godot artifacts
+.godot/
 .import/
 .kilo/
 .mono/
@@ -8,6 +9,7 @@ node_modules/
 *.tscn.cache
 *.tres.cache
 export_presets.cfg
+*.uid
 *.log
 
 # Godot
