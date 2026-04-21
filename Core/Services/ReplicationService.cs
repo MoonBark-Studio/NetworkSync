@@ -55,7 +55,7 @@ public class ReplicationService : IReplicationService
     /// <summary>
     /// Tracks a placement change for delta replication.
     /// </summary>
-    public void TrackPlacementChange(long structureId, int x, int y, PlacementDeltaMessage.ChangeType type, string structureType = "", int rotation = 0)
+    public void TrackPlacementChange(long structureId, int x, int y, PlacementDeltaChangeType type, string structureType = "", int rotation = 0)
     {
         lock (_lock)
         {

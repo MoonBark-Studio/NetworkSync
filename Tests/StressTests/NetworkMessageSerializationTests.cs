@@ -112,8 +112,8 @@ public sealed class NetworkMessageSerializationTests
             TickNumber = 100,
             Changes = new List<PlacementDeltaMessage.PlacementChange>
             {
-                new() { X = 1, Y = 2, Type = PlacementDeltaMessage.ChangeType.Added, StructureType = "Wall", Rotation = 0 },
-                new() { X = 3, Y = 4, Type = PlacementDeltaMessage.ChangeType.Removed, StructureType = "Gate", Rotation = 1 }
+                new() { X = 1, Y = 2, Type = PlacementDeltaChangeType.Added, StructureType = "Wall", Rotation = 0 },
+                new() { X = 3, Y = 4, Type = PlacementDeltaChangeType.Removed, StructureType = "Gate", Rotation = 1 }
             }
         };
 
@@ -124,8 +124,8 @@ public sealed class NetworkMessageSerializationTests
         deserialized.TickNumber.ShouldBe(original.TickNumber);
         deserialized.Changes.Count.ShouldBe(2);
         deserialized.Changes[0].X.ShouldBe(1);
-        deserialized.Changes[0].Type.ShouldBe(PlacementDeltaMessage.ChangeType.Added);
-        deserialized.Changes[1].Type.ShouldBe(PlacementDeltaMessage.ChangeType.Removed);
+        deserialized.Changes[0].Type.ShouldBe(PlacementDeltaChangeType.Added);
+        deserialized.Changes[1].Type.ShouldBe(PlacementDeltaChangeType.Removed);
     }
 
     [Fact]
@@ -184,7 +184,7 @@ public sealed class NetworkMessageSerializationTests
             Y = 0,
             Width = 2,
             Height = 2,
-            Cells = new List<RegionOccupancyMessage.CellOccupancyData>
+            Cells = new List<CellOccupancyData>
             {
                 new() { Occupied = true, EntityId = 1, StructureId = null },
                 new() { Occupied = false, EntityId = null, StructureId = null },

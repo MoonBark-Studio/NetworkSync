@@ -190,7 +190,7 @@ public class SimpleServerExample
             structureId: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             x: command.X,
             y: command.Y,
-            type: PlacementDeltaMessage.ChangeType.Added,
+            type: PlacementDeltaChangeType.Added,
             structureType: command.StructureType,
             rotation: command.Rotation
         );

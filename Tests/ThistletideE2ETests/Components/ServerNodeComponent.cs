@@ -126,7 +126,7 @@ public class ServerNodeComponent : IServerNodeComponent
                     X = cmd.X, 
                     Y = cmd.Y, 
                     StructureType = cmd.StructureType,
-                    Type = PlacementDeltaMessage.ChangeType.Added
+                    Type = PlacementDeltaChangeType.Added
                 }
             }
         };
@@ -135,7 +135,7 @@ public class ServerNodeComponent : IServerNodeComponent
             structureId: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             x: cmd.X,
             y: cmd.Y,
-            type: PlacementDeltaMessage.ChangeType.Added,
+            type: PlacementDeltaChangeType.Added,
             structureType: cmd.StructureType,
             rotation: cmd.Rotation
         );

@@ -14,7 +14,7 @@ public sealed class ReplicationServiceExtendedTests
         var transport = new MockNetworkTransport();
         var service = new ReplicationService(transport);
 
-        service.TrackPlacementChange(1, 0, 0, PlacementDeltaMessage.ChangeType.Added);
+        service.TrackPlacementChange(1, 0, 0, PlacementDeltaChangeType.Added);
 
         await service.PublishPlacementDeltaAsync(new PlacementDeltaMessage());
 
@@ -89,7 +89,7 @@ public sealed class ReplicationServiceExtendedTests
         var delta = new PlacementDeltaMessage();
         delta.Changes.Add(new PlacementDeltaMessage.PlacementChange
         {
-            X = 1, Y = 2, Type = PlacementDeltaMessage.ChangeType.Added
+            X = 1, Y = 2, Type = PlacementDeltaChangeType.Added
         });
 
         transport.RaiseMessageReceived(0, delta);
@@ -146,8 +146,8 @@ public sealed class ReplicationServiceExtendedTests
         await transport.StartServerAsync(7777, 4);
         var service = new ReplicationService(transport);
 
-        service.TrackPlacementChange(1, 1, 1, PlacementDeltaMessage.ChangeType.Added, "A");
-        service.TrackPlacementChange(2, 2, 2, PlacementDeltaMessage.ChangeType.Added, "B");
+        service.TrackPlacementChange(1, 1, 1, PlacementDeltaChangeType.Added, "A");
+        service.TrackPlacementChange(2, 2, 2, PlacementDeltaChangeType.Added, "B");
 
         var delta1 = new PlacementDeltaMessage();
         await service.PublishPlacementDeltaAsync(delta1);

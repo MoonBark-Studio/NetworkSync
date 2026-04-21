@@ -144,11 +144,11 @@ public class ClientNodeComponent : IClientNodeComponent
         foreach (var change in e.Delta.Changes)
         {
             var pos = new CoreVector2I(change.X, change.Y);
-            if (change.Type == PlacementDeltaMessage.ChangeType.Added)
+            if (change.Type == PlacementDeltaChangeType.Added)
             {
                 _localOccupancyMap.SetCellOccupancy(pos, true, _clientId, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
             }
-            else if (change.Type == PlacementDeltaMessage.ChangeType.Removed)
+            else if (change.Type == PlacementDeltaChangeType.Removed)
             {
                 _localOccupancyMap.ClearCell(pos);
             }

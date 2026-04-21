@@ -16,8 +16,8 @@ public sealed class ReplicationServiceTests
         await transport.StartServerAsync(7777, 4);
         ReplicationService service = new ReplicationService(transport);
 
-        service.TrackPlacementChange(11, 3, 4, PlacementDeltaMessage.ChangeType.Added, "Wall", 1);
-        service.TrackPlacementChange(12, 6, 8, PlacementDeltaMessage.ChangeType.Modified, "Gate", 2);
+        service.TrackPlacementChange(11, 3, 4, PlacementDeltaChangeType.Added, "Wall", 1);
+        service.TrackPlacementChange(12, 6, 8, PlacementDeltaChangeType.Modified, "Gate", 2);
 
         PlacementDeltaMessage delta = new PlacementDeltaMessage();
         await service.PublishPlacementDeltaAsync(delta);
@@ -56,7 +56,7 @@ public sealed class ReplicationServiceTests
         service.PlacementDeltaReceived += (_, args) => received = args.Delta;
 
         PlacementDeltaMessage delta = new PlacementDeltaMessage();
-        delta.Changes.Add(new PlacementDeltaMessage.PlacementChange { X = 9, Y = 10, Type = PlacementDeltaMessage.ChangeType.Added, StructureType = "Wall" });
+        delta.Changes.Add(new PlacementDeltaMessage.PlacementChange { X = 9, Y = 10, Type = PlacementDeltaChangeType.Added, StructureType = "Wall" });
 
         await service.ProcessPlacementDeltaAsync(delta);
 

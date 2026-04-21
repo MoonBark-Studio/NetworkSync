@@ -51,16 +51,6 @@ public class PlacementDeltaMessage : NetworkMessageBase
         public int Rotation { get; set; }
     }
 
-    /// <summary>
-    /// The type of placement change (for backward compatibility).
-    /// </summary>
-    [Obsolete("Use PlacementDeltaChangeType instead.")]
-    public enum ChangeType
-    {
-        Added,
-        Removed,
-        Modified
-    }
 }
 
 /// <summary>

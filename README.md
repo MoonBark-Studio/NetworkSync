@@ -198,7 +198,7 @@ networkManager.ReplicationService.TrackPlacementChange(
     structureId: 123,
     x: 10,
     y: 20,
-    type: PlacementDeltaMessage.ChangeType.Added,
+    type: PlacementDeltaChangeType.Added,
     structureType: "Wall",
     rotation: 0
 );

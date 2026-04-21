@@ -1,4 +1,5 @@
 using MoonBark.NetworkSync.Core.Services;
+using ServiceCellOccupancyData = MoonBark.NetworkSync.Core.Services.CellOccupancyData;
 using MoonBark.NetworkSync.Core.Messages;
 
 namespace MoonBark.NetworkSync.Tests.StressTests.Mocks;
@@ -9,14 +10,14 @@ namespace MoonBark.NetworkSync.Tests.StressTests.Mocks;
 /// </summary>
 public class TestOccupancyProvider : ICoreOccupancyProvider
 {
-    private readonly Dictionary<(int x, int y), CellOccupancyData> _occupancyMap;
+    private readonly Dictionary<(int x, int y), ServiceCellOccupancyData> _occupancyMap;
     private readonly object _lock = new();
     private readonly int _worldSize;
     private long _nextStructureId;
 
     public TestOccupancyProvider(int worldSize = 1000)
     {
-        _occupancyMap = new Dictionary<(int, int), CellOccupancyData>();
+        _occupancyMap = new Dictionary<(int, int), ServiceCellOccupancyData>();
         _worldSize = worldSize;
         _nextStructureId = 1;
     }
@@ -46,7 +47,7 @@ public class TestOccupancyProvider : ICoreOccupancyProvider
         lock (_lock)
         {
             var structureId = Interlocked.Increment(ref _nextStructureId);
-            _occupancyMap[(x, y)] = new CellOccupancyData
+            _occupancyMap[(x, y)] = new ServiceCellOccupancyData
             {
                 Occupied = true,
                 EntityId = null,
@@ -57,11 +58,11 @@ public class TestOccupancyProvider : ICoreOccupancyProvider
         return Task.CompletedTask;
     }
 
-    public Task<CellOccupancyData> GetCellOccupancyAsync(int x, int y)
+    public Task<ServiceCellOccupancyData> GetCellOccupancyAsync(int x, int y)
     {
         lock (_lock)
         {
-            var occupancy = _occupancyMap.GetValueOrDefault((x, y), new CellOccupancyData { Occupied = false });
+            var occupancy = _occupancyMap.GetValueOrDefault((x, y), new ServiceCellOccupancyData { Occupied = false });
             return Task.FromResult(occupancy);
         }
     }
@@ -72,7 +73,7 @@ public class TestOccupancyProvider : ICoreOccupancyProvider
         {
             var region = new RegionOccupancyData
             {
-                Cells = new List<CellOccupancyData>()
+                Cells = new List<ServiceCellOccupancyData>()
             };
 
             for (int dy = 0; dy < height; dy++)
@@ -81,7 +82,7 @@ public class TestOccupancyProvider : ICoreOccupancyProvider
                 {
                     var cellX = x + dx;
                     var cellY = y + dy;
-                    var occupancy = _occupancyMap.GetValueOrDefault((cellX, cellY), new CellOccupancyData { Occupied = false });
+                    var occupancy = _occupancyMap.GetValueOrDefault((cellX, cellY), new ServiceCellOccupancyData { Occupied = false });
                     region.Cells.Add(occupancy);
                 }
             }
@@ -93,11 +94,11 @@ public class TestOccupancyProvider : ICoreOccupancyProvider
     /// <summary>
     /// Gets a snapshot of all placements for verification.
     /// </summary>
-    public Dictionary<(int x, int y), CellOccupancyData> GetAllPlacements()
+    public Dictionary<(int x, int y), ServiceCellOccupancyData> GetAllPlacements()
     {
         lock (_lock)
         {
-            return new Dictionary<(int, int), CellOccupancyData>(_occupancyMap);
+            return new Dictionary<(int, int), ServiceCellOccupancyData>(_occupancyMap);
         }
     }
 
@@ -129,13 +130,13 @@ public class TestOccupancyProvider : ICoreOccupancyProvider
 /// </summary>
 public class TestLocalValidator : ILocalOccupancyValidator
 {
-    private readonly Dictionary<(int x, int y), CellOccupancyData> _localOccupancy;
+    private readonly Dictionary<(int x, int y), ServiceCellOccupancyData> _localOccupancy;
     private readonly object _lock = new();
     private readonly int _worldSize;
 
     public TestLocalValidator(int worldSize = 1000)
     {
-        _localOccupancy = new Dictionary<(int, int), CellOccupancyData>();
+        _localOccupancy = new Dictionary<(int, int), ServiceCellOccupancyData>();
         _worldSize = worldSize;
     }
 
@@ -165,7 +166,7 @@ public class TestLocalValidator : ILocalOccupancyValidator
         {
             if (occupied)
             {
-                _localOccupancy[(x, y)] = new CellOccupancyData
+                _localOccupancy[(x, y)] = new ServiceCellOccupancyData
                 {
                     Occupied = true,
                     EntityId = entityId,
@@ -182,11 +183,11 @@ public class TestLocalValidator : ILocalOccupancyValidator
     /// <summary>
     /// Gets a snapshot of local occupancy for verification.
     /// </summary>
-    public Dictionary<(int x, int y), CellOccupancyData> GetLocalOccupancy()
+    public Dictionary<(int x, int y), ServiceCellOccupancyData> GetLocalOccupancy()
     {
         lock (_lock)
         {
-            return new Dictionary<(int, int), CellOccupancyData>(_localOccupancy);
+            return new Dictionary<(int, int), ServiceCellOccupancyData>(_localOccupancy);
         }
     }
 
@@ -212,3 +213,5 @@ public class TestLocalValidator : ILocalOccupancyValidator
         }
     }
 }
+
+

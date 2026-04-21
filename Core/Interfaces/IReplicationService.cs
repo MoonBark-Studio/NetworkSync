@@ -65,7 +65,7 @@ public interface IReplicationService
     /// <param name="type">The type of placement change.</param>
     /// <param name="structureType">The structure type for add or modify changes.</param>
     /// <param name="rotation">The structure rotation for add or modify changes.</param>
-    void TrackPlacementChange(long structureId, int x, int y, Messages.PlacementDeltaMessage.ChangeType type, string structureType = "", int rotation = 0);
+    void TrackPlacementChange(long structureId, int x, int y, Messages.PlacementDeltaChangeType type, string structureType = "", int rotation = 0);
 
     /// <summary>
     /// Tracks an occupancy change for the next delta publish.

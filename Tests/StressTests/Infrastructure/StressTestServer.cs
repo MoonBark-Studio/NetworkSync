@@ -1,6 +1,7 @@
 using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Messages;
 using MoonBark.NetworkSync.Core.Services;
+using ServiceCellOccupancyData = MoonBark.NetworkSync.Core.Services.CellOccupancyData;
 using MoonBark.NetworkSync.Tests.StressTests.Mocks;
 
 namespace MoonBark.NetworkSync.Tests.StressTests.Infrastructure;
@@ -103,7 +104,7 @@ public class StressTestServer : IDisposable
                 structureId: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
                 x: command.X,
                 y: command.Y,
-                type: PlacementDeltaMessage.ChangeType.Added,
+                type: PlacementDeltaChangeType.Added,
                 structureType: command.StructureType,
                 rotation: command.Rotation
             );
@@ -126,7 +127,7 @@ public class StressTestServer : IDisposable
         return _occupancyProvider.GetPlacementCount();
     }
 
-    public Dictionary<(int x, int y), CellOccupancyData> GetAllPlacements()
+    public Dictionary<(int x, int y), ServiceCellOccupancyData> GetAllPlacements()
     {
         return _occupancyProvider.GetAllPlacements();
     }
@@ -137,3 +138,4 @@ public class StressTestServer : IDisposable
         _networkManager.Dispose();
     }
 }
+

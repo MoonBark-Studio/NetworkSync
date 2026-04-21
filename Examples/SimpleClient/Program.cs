@@ -265,11 +265,11 @@ public class SimpleClientExample
             Console.WriteLine($"[Client]   Placement change: ({change.X}, {change.Y}) {change.Type} {change.StructureType}");
 
             // Update local validator
-            if (change.Type == PlacementDeltaMessage.ChangeType.Added)
+            if (change.Type == PlacementDeltaChangeType.Added)
             {
                 _localValidator.UpdateLocalOccupancy(change.X, change.Y, true, structureId: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
             }
-            else if (change.Type == PlacementDeltaMessage.ChangeType.Removed)
+            else if (change.Type == PlacementDeltaChangeType.Removed)
             {
                 _localValidator.UpdateLocalOccupancy(change.X, change.Y, false);
             }

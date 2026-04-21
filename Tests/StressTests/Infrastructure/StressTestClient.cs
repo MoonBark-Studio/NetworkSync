@@ -1,6 +1,7 @@
 using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Messages;
 using MoonBark.NetworkSync.Core.Services;
+using ServiceCellOccupancyData = MoonBark.NetworkSync.Core.Services.CellOccupancyData;
 using MoonBark.NetworkSync.Tests.StressTests.Mocks;
 
 namespace MoonBark.NetworkSync.Tests.StressTests.Infrastructure;
@@ -125,11 +126,11 @@ public class StressTestClient : IDisposable
     {
         foreach (var change in e.Delta.Changes)
         {
-            if (change.Type == PlacementDeltaMessage.ChangeType.Added)
+            if (change.Type == PlacementDeltaChangeType.Added)
             {
                 _localValidator.UpdateLocalOccupancy(change.X, change.Y, true, structureId: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
             }
-            else if (change.Type == PlacementDeltaMessage.ChangeType.Removed)
+            else if (change.Type == PlacementDeltaChangeType.Removed)
             {
                 _localValidator.UpdateLocalOccupancy(change.X, change.Y, false);
             }
@@ -153,7 +154,7 @@ public class StressTestClient : IDisposable
         return _localValidator.GetLocalPlacementCount();
     }
 
-    public Dictionary<(int x, int y), CellOccupancyData> GetLocalPlacements()
+    public Dictionary<(int x, int y), ServiceCellOccupancyData> GetLocalPlacements()
     {
         return _localValidator.GetLocalOccupancy();
     }
@@ -164,3 +165,4 @@ public class StressTestClient : IDisposable
         _networkManager.Dispose();
     }
 }
+

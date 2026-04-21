@@ -97,7 +97,7 @@ public class ServerAuthorityService : IServerAuthorityService
             Y = y,
             Width = width,
             Height = height,
-            Cells = regionOccupancy.Cells.Select(c => new RegionOccupancyMessage.CellOccupancyData
+            Cells = regionOccupancy.Cells.Select(c => new Messages.CellOccupancyData
             {
                 Occupied = c.Occupied,
                 EntityId = c.EntityId,
