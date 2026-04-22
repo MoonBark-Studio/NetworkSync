@@ -6,6 +6,8 @@
 addons/
 node_modules/
 *.import
+*.png.import
+*.tres.import
 *.tscn.cache
 *.tres.cache
 export_presets.cfg
