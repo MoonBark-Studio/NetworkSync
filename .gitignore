@@ -8,6 +8,14 @@ node_modules/
 *.import
 *.png.import
 *.tres.import
+*.tscn.import
+*.shader.import
+*.wav.import
+*.mp3.import
+*.ogg.import
+*.font.import
+*.ttf.import
+
 *.tscn.cache
 *.tres.cache
 export_presets.cfg
