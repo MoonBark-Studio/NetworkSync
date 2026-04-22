@@ -30,10 +30,13 @@ obj/
 *.exe
 
 # .NET / NuGet
-*.csproj
-*.sln
 *.pck
 *.res
+artifacts/
+project.lock.json
+project.fragment.lock.json
+*.nupkg
+*.snupkg
 
 # IDE
 .vs/
@@ -43,12 +46,18 @@ obj/
 *.suo
 *.rsuser
 *.userosscache
-*.sln.docstates
 mono_crash.*
 
 # OS
+.DS_Store
+Thumbs.db
 
 # Temp
+tmp/
+temp/
+.tmp/
+.temp/
+*.tmp
 
 # Other
 BenchmarkDotNet.Artifacts/
