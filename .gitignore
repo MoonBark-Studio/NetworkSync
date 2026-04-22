@@ -12,59 +12,46 @@ export_presets.cfg
 *.uid
 *.log
 
-# Godot
-.godot/
-.import/
-export_presets.cfg
-*.tscn.cache
-*.tres.cache
-*.import
-
-# Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-[Ww][Ii][Nn]32/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-[Ll]ogs/
-
-# Visual Studio cache/options directory
-.vs/
-.vscode/
-
-# User-specific files
-*.rsuser
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
-# Mono auto generated files
-mono_crash.*
-
-# Build Results of an ATL Project
-[Dd]ebugPS/
-[Rr]eleasePS/
-dlldata.c
-
-# Benchmark Results
-BenchmarkDotNet.Artifacts/
-
+# Build
 bin/
 obj/
 
-# Godot artifacts (added by workspace audit)
-
-# Missing .NET / C# patterns (workspace audit)
+# .NET / NuGet
 *.csproj
 *.sln
 *.pck
 *.res
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+*.rsuser
+*.userosscache
+*.sln.docstates
+mono_crash.*
+
+# OS
+
+# Temp
+
+# Other
+BenchmarkDotNet.Artifacts/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Bb]in/
+[Dd]ebug/
+[Dd]ebugPS/
+[Dd]ebugPublic/
+[Ll]og/
+[Ll]ogs/
+[Oo]bj/
+[Rr]elease/
+[Rr]eleasePS/
+[Rr]eleases/
+[Ww][Ii][Nn]32/
+bld/
+dlldata.c
+x64/
+x86/
