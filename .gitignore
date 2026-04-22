@@ -17,6 +17,8 @@ export_presets.cfg
 # Build
 bin/
 obj/
+*.pdb
+*.exe
 
 # .NET / NuGet
 *.csproj
@@ -27,6 +29,7 @@ obj/
 # IDE
 .vs/
 .vscode/
+.idea/
 *.user
 *.suo
 *.rsuser
