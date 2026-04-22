@@ -62,4 +62,9 @@ bin/
 obj/
 
 # Godot artifacts (added by workspace audit)
-.git/
+
+# Missing .NET / C# patterns (workspace audit)
+*.csproj
+*.sln
+*.pck
+*.res
