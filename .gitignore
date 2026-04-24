@@ -6,6 +6,7 @@
 addons/
 node_modules/
 *.import
+**/*.import
 *.png.import
 *.tres.import
 *.tscn.import
