@@ -6,7 +6,9 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-  </PropertyGroup>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  
+    <LangVersion>latest</LangVersion>  </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MoonBark.NetworkSync.Core.csproj" />
