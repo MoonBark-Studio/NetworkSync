@@ -1,6 +1,21 @@
 # NetworkSync — Roadmap
 Updated: 2026-04-14
 
+## Action Items from Latest Audit
+- [ ] Fix: Empty catch block (1x)
+- [ ] Fix: Magic number (4+ digits) (4x)
+- [ ] Fix: Console.WriteLine (14x)
+- [ ] Fix: catch-all Exception (4x)
+- [ ] Fix: Property bag access ["key"] (2x)
+
+## Changelog
+### 2026-04-30
+- Audit run — 25 total issues (0 changed files)
+- ECS violations: 0
+- Framework bridge gaps: 0
+
+<!-- previous entries preserved -->
+
 ## Overview
 Authoritative state synchronization for multiplayer games.
 

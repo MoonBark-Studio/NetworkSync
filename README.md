@@ -2,6 +2,38 @@
 
 High-performance networking plugin for Godot games using LiteNetLib.
 
+## Key Types
+## Key Types (71 files, ~8381 lines)
+ActionResult, AgentResult, AuthorityAndPredictionTests, CellOccupancyData, CellOccupancyMessage, ChunkDeltaMessage, ClientConnectionHandler, ClientNodeComponent, ClientPredictionExtendedTests, ClientPredictionService, ConnectRequestMessage, ConnectResponseMessage, ConnectionMetrics, CoreVector2I, DataSyncVerificationTest, DeliveryMethod, DisconnectMessage, DisconnectReason, ExampleLocalValidator, ExampleOccupancyProvider
+
+## Namespaces
+- `MoonBark.NetworkSync.Core`
+- `MoonBark.NetworkSync.Core.Interfaces`
+- `MoonBark.NetworkSync.Core.Messages`
+- `MoonBark.NetworkSync.Core.Services`
+- `MoonBark.NetworkSync.Core.Transports`
+- `MoonBark.NetworkSync.Examples.SimpleClient`
+- `MoonBark.NetworkSync.Examples.SimpleServer`
+- `MoonBark.NetworkSync.Tests.StressTests`
+- `MoonBark.NetworkSync.Tests.StressTests.Infrastructure`
+- `MoonBark.NetworkSync.Tests.StressTests.Mocks`
+- `MoonBark.NetworkSync.Tests.ThistletideE2E`
+- `MoonBark.NetworkSync.Tests.ThistletideE2E.Components`
+- `MoonBark.NetworkSync.Tests.ThistletideE2E.Metrics`
+- `MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations`
+- `MoonBark.NetworkSync.Tests.ThistletideE2E.ThistletideMock`
+- `MoonBark.NetworkSync.Tests.ThistletideE2E.UI`
+
+## ECS Architecture (v2)
+- ECS subdirectories: none
+- ECS files outside subdirectories: 0
+- Flat structure: Core/, ECS/, Godot/ (cs/ prefix not required)
+
+## Status
+- ✅ Audited: 2026-04-30
+- Changed files this run: 0
+- File count: 71 C# files (~8381 lines)
+
 ## Overview
 
 NetworkSync provides a comprehensive networking solution built on LiteNetLib, optimized for real-time multiplayer games. It implements the delta-based replication architecture from the Thistletide networked placement architecture document.
