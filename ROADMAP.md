@@ -7,15 +7,13 @@ Updated: 2026-04-14
 - [ ] Fix: Console.WriteLine (14x)
 - [ ] Fix: catch-all Exception (4x)
 - [ ] Fix: Property bag access ["key"] (2x)
-
 ## Changelog
-### 2026-04-30
-- Audit run — 25 total issues (0 changed files)
+### 2026-05-05
+- Audit run — 25 total issues (71 changed files)
 - ECS violations: 0
 - Framework bridge gaps: 0
 
 <!-- previous entries preserved -->
-
 ## Overview
 Authoritative state synchronization for multiplayer games.
 
