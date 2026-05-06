@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using MoonBark.NetworkSync.Tests.ThistletideE2E.Components;
 using MoonBark.NetworkSync.Tests.ThistletideE2E.Metrics;
 

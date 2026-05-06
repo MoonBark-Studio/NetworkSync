@@ -1,4 +1,4 @@
-using MoonBark.NetworkSync.Core.Interfaces;
+﻿using MoonBark.NetworkSync.Core.Interfaces;
 
 namespace MoonBark.NetworkSync.Tests.StressTests.Mocks;
 

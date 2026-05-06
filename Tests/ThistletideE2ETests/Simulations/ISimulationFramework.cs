@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations;
 

@@ -1,4 +1,4 @@
-using MoonBark.Framework.Logging;
+﻿using MoonBark.Framework.Logging;
 using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Messages;
 

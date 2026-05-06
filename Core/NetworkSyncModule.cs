@@ -1,4 +1,4 @@
-using MoonBark.Framework.Core;
+﻿using MoonBark.Framework.Core;
 using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Services;
 

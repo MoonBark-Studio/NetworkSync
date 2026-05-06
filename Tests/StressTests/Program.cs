@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using MoonBark.NetworkSync.Tests.StressTests.Infrastructure;
 
 namespace MoonBark.NetworkSync.Tests.StressTests;
@@ -80,10 +80,10 @@ public class Program
         }
 
         Console.WriteLine($"\n[Data Sync Verification]");
-        Console.WriteLine($"  Basic Sync: {(syncResult.Success ? "✓ PASSED" : "✗ FAILED")}");
+        Console.WriteLine($"  Basic Sync: {(syncResult.Success ? "âœ“ PASSED" : "âœ— FAILED")}");
         Console.WriteLine($"    Server placements: {syncResult.ServerPlacementCount}");
         Console.WriteLine($"    Missing on client: {syncResult.MissingOnClient}");
-        Console.WriteLine($"  Load Sync: {(loadSyncResult.Success ? "✓ PASSED" : "✗ FAILED")}");
+        Console.WriteLine($"  Load Sync: {(loadSyncResult.Success ? "âœ“ PASSED" : "âœ— FAILED")}");
         Console.WriteLine($"    Server placements: {loadSyncResult.ServerPlacementCount}");
         Console.WriteLine($"    Missing on client: {loadSyncResult.MissingOnClient}");
 
@@ -91,13 +91,13 @@ public class Program
         var successResults = results.Where(r => r.Success).ToList();
         if (successResults.Count == results.Count && syncResult.Success && loadSyncResult.Success)
         {
-            Console.WriteLine("\n✓ ALL TESTS PASSED");
+            Console.WriteLine("\nâœ“ ALL TESTS PASSED");
             Console.WriteLine("  NetworkSync successfully handles all tested concurrent connections.");
         }
         else
         {
             var failed = results.FirstOrDefault(r => !r.Success);
-            Console.WriteLine($"\n✗ SOME TESTS FAILED");
+            Console.WriteLine($"\nâœ— SOME TESTS FAILED");
             if (failed != null)
             {
                 Console.WriteLine($"  Failed connections: {failed.FailedConnections}");

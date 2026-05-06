@@ -1,4 +1,4 @@
-namespace MoonBark.NetworkSync.Core.Interfaces;
+﻿namespace MoonBark.NetworkSync.Core.Interfaces;
 
 /// <summary>
 /// Interface for local occupancy validation.

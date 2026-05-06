@@ -1,4 +1,4 @@
-using MoonBark.NetworkSync.Core.Interfaces;
+﻿using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Services;
 using MoonBark.NetworkSync.Tests.ThistletideE2E.ThistletideMock;
 

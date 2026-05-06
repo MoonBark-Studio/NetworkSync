@@ -1,4 +1,4 @@
-using MoonBark.NetworkSync.Core.Messages;
+﻿using MoonBark.NetworkSync.Core.Messages;
 using MoonBark.NetworkSync.Core.Services;
 using MoonBark.NetworkSync.Tests.StressTests.Infrastructure;
 using MoonBark.NetworkSync.Tests.StressTests.Mocks;
@@ -127,12 +127,12 @@ public class DataSyncVerificationTest
 
                 if (mismatches > 0)
                 {
-                    Console.WriteLine($"[SyncTest] ⚠ Client {i + 1} has {mismatches} mismatches");
+                    Console.WriteLine($"[SyncTest] âš  Client {i + 1} has {mismatches} mismatches");
                     syncResults.ClientsWithMismatches++;
                 }
                 else
                 {
-                    Console.WriteLine($"[SyncTest] ✓ Client {i + 1} perfectly synced");
+                    Console.WriteLine($"[SyncTest] âœ“ Client {i + 1} perfectly synced");
                 }
             }
 
@@ -159,7 +159,7 @@ public class DataSyncVerificationTest
 
                     if (differences > 0)
                     {
-                        Console.WriteLine($"[SyncTest] ⚠ Client {i + 1} and Client {j + 1} differ by {differences}");
+                        Console.WriteLine($"[SyncTest] âš  Client {i + 1} and Client {j + 1} differ by {differences}");
                         syncResults.ClientToClientMismatches += differences;
                     }
                 }

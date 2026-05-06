@@ -1,4 +1,4 @@
-using MoonBark.NetworkSync.Core.Interfaces;
+﻿using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Services;
 using ServiceCellOccupancyData = MoonBark.NetworkSync.Core.Services.CellOccupancyData;
 using MoonBark.NetworkSync.Core.Messages;

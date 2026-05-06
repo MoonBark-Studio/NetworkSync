@@ -1,4 +1,4 @@
-namespace MoonBark.NetworkSync.Core.Interfaces;
+﻿namespace MoonBark.NetworkSync.Core.Interfaces;
 
 /// <summary>
 /// Network connection states.

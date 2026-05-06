@@ -1,4 +1,4 @@
-namespace MoonBark.NetworkSync.Core.Messages;
+﻿namespace MoonBark.NetworkSync.Core.Messages;
 
 /// <summary>
 /// The type of placement change.

@@ -1,4 +1,4 @@
-using MoonBark.NetworkSync.Tests.StressTests.Infrastructure;
+﻿using MoonBark.NetworkSync.Tests.StressTests.Infrastructure;
 using MoonBark.NetworkSync.Tests.StressTests.Mocks;
 using Shouldly;
 using Xunit;

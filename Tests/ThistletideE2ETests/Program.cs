@@ -1,4 +1,4 @@
-using MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations;
+﻿using MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations;
 
 namespace MoonBark.NetworkSync.Tests.ThistletideE2E;
 

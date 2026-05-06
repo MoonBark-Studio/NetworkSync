@@ -1,4 +1,4 @@
-namespace MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations;
+﻿namespace MoonBark.NetworkSync.Tests.ThistletideE2E.Simulations;
 
 /// <summary>
 /// Self-contained GOAP evaluation for tower defense game balance and progression.
@@ -378,14 +378,14 @@ public class GoapTowerDefenseEvaluation
             }
             else
             {
-                Console.WriteLine($"  ✓ Balanced wall/tower ratio ({ratio:F1})");
+                Console.WriteLine($"  âœ“ Balanced wall/tower ratio ({ratio:F1})");
             }
         }
         
         Console.WriteLine($"\n[Conclusion]");
         if (successRate > 70 && avgPlanningTime < 10)
         {
-            Console.WriteLine("  ✓ GOAP IS VIABLE for tower defense game balance");
+            Console.WriteLine("  âœ“ GOAP IS VIABLE for tower defense game balance");
             Console.WriteLine("    The methodology provides good decision-making with acceptable performance");
         }
         else if (successRate > 50)
@@ -395,7 +395,7 @@ public class GoapTowerDefenseEvaluation
         }
         else
         {
-            Console.WriteLine("  ✗ GOAP MAY NOT BE SUITABLE in current form");
+            Console.WriteLine("  âœ— GOAP MAY NOT BE SUITABLE in current form");
             Console.WriteLine("    High failure rate suggests need for more robust planning");
         }
         

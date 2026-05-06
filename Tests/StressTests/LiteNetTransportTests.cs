@@ -1,4 +1,4 @@
-using MoonBark.NetworkSync.Core.Transports;
+﻿using MoonBark.NetworkSync.Core.Transports;
 using Shouldly;
 using Xunit;
 

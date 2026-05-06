@@ -1,4 +1,4 @@
-namespace MoonBark.NetworkSync.Core.Messages;
+﻿namespace MoonBark.NetworkSync.Core.Messages;
 
 /// <summary>
 /// Represents terrain data for a single cell.

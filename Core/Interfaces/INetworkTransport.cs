@@ -1,4 +1,4 @@
-namespace MoonBark.NetworkSync.Core.Interfaces;
+﻿namespace MoonBark.NetworkSync.Core.Interfaces;
 
 /// <summary>
 /// Defines the contract for network transport implementations.

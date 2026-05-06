@@ -1,4 +1,4 @@
-using MoonBark.NetworkSync.Core.Interfaces;
+﻿using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Messages;
 using MoonBark.NetworkSync.Core.Services;
 
@@ -195,11 +195,11 @@ public class SimpleClientExample
         // Show predicted result immediately
         if (predictedResult.Success)
         {
-            Console.WriteLine($"[Client] ✅ Prediction: Placement valid at ({x}, {y})");
+            Console.WriteLine($"[Client] âœ… Prediction: Placement valid at ({x}, {y})");
         }
         else
         {
-            Console.WriteLine($"[Client] ❌ Prediction: {predictedResult.FailureReason}");
+            Console.WriteLine($"[Client] âŒ Prediction: {predictedResult.FailureReason}");
         }
     }
 
@@ -247,11 +247,11 @@ public class SimpleClientExample
             {
                 // In a real implementation, we'd need to track the placement details
                 // For now, this is a placeholder
-                Console.WriteLine($"[Client] ✅ Server confirmed placement");
+                Console.WriteLine($"[Client] âœ… Server confirmed placement");
             }
             else
             {
-                Console.WriteLine($"[Client] ❌ Server rejected placement: {result.FailureReason}");
+                Console.WriteLine($"[Client] âŒ Server rejected placement: {result.FailureReason}");
             }
         }
     }
@@ -304,7 +304,7 @@ public class SimpleClientExample
 
     private void OnPredictionMismatch(object? sender, PredictionMismatchEventArgs e)
     {
-        Console.WriteLine($"[Client] ⚠️ Prediction mismatch!");
+        Console.WriteLine($"[Client] âš ï¸ Prediction mismatch!");
         Console.WriteLine($"[Client]   Predicted: {e.PredictedResult.Success}");
         Console.WriteLine($"[Client]   Server: {e.ServerResult.Success}");
 
