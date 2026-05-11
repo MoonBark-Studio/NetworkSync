@@ -1,4 +1,4 @@
-﻿using MoonBark.Framework.Logging;
+using MoonBark.Framework.Logging;
 using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Messages;
 
@@ -23,12 +23,12 @@ public class ReplicationService : IReplicationService
 
     private bool _disposed;
 
-    private readonly IFrameworkLogger _logger;
+    private readonly ILogger _logger;
 
     public ReplicationService(INetworkTransport transport)
-        : this(transport, new ConsoleFrameworkLogger("ReplicationService", FrameworkLogLevel.Debug)) { }
+        : this(transport, new ConsoleLogger("ReplicationService", LogLevel.Debug)) { }
 
-    public ReplicationService(INetworkTransport transport, IFrameworkLogger logger)
+    public ReplicationService(INetworkTransport transport, ILogger logger)
     {
         _logger = logger;
         _transport = transport;

@@ -1,4 +1,4 @@
-﻿using MoonBark.NetworkSync.Core.Interfaces;
+using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Messages;
 using MoonBark.NetworkSync.Core.Services;
 using MoonBark.Framework.Logging;
@@ -18,7 +18,7 @@ public sealed class NetworkManager : IDisposable
     private readonly ReplicationService _replicationService;
     private readonly ServerAuthorityService? _serverAuthority;
     private readonly ClientPredictionService? _clientPrediction;
-    private readonly IFrameworkLogger _logger;
+    private readonly ILogger _logger;
     private readonly CancellationTokenSource _cancellationTokenSource;
     private Task? _updateLoop;
 
@@ -111,7 +111,7 @@ public sealed class NetworkManager : IDisposable
         _replicationService = replicationService;
         _serverAuthority = serverAuthority;
         _clientPrediction = clientPrediction;
-        _logger = new ConsoleFrameworkLogger("NetworkManager", FrameworkLogLevel.Debug);
+        _logger = new ConsoleLogger("NetworkManager", LogLevel.Debug);
         _cancellationTokenSource = new CancellationTokenSource();
 
         // Subscribe to transport events

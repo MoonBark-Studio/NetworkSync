@@ -1,4 +1,4 @@
-﻿using MoonBark.Framework.Logging;
+using MoonBark.Framework.Logging;
 using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Messages;
 
@@ -14,12 +14,12 @@ public class ServerAuthorityService : IServerAuthorityService
     private readonly Dictionary<long, PlacementResultMessage> _commandResults;
     private readonly object _lock = new();
 
-    private readonly IFrameworkLogger _logger;
+    private readonly ILogger _logger;
 
     public ServerAuthorityService(ICoreOccupancyProvider occupancyProvider)
-        : this(occupancyProvider, new ConsoleFrameworkLogger("ServerAuthority", FrameworkLogLevel.Debug)) { }
+        : this(occupancyProvider, new ConsoleLogger("ServerAuthority", LogLevel.Debug)) { }
 
-    public ServerAuthorityService(ICoreOccupancyProvider occupancyProvider, IFrameworkLogger logger)
+    public ServerAuthorityService(ICoreOccupancyProvider occupancyProvider, ILogger logger)
     {
         _logger = logger;
         _occupancyProvider = occupancyProvider;

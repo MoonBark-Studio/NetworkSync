@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Sockets;
 using LiteNetLib;
 using LiteNetLib.Utils;
@@ -44,11 +44,11 @@ public class LiteNetTransport : INetworkTransport, INetEventListener
         set => _gameVersion = value ?? DefaultGameVersion;
     }
 
-    private readonly IFrameworkLogger _logger;
+    private readonly ILogger _logger;
 
-    public LiteNetTransport() : this(new ConsoleFrameworkLogger("LiteNetTransport", FrameworkLogLevel.Debug)) { }
+    public LiteNetTransport() : this(new ConsoleLogger("LiteNetTransport", LogLevel.Debug)) { }
 
-    public LiteNetTransport(IFrameworkLogger logger)
+    public LiteNetTransport(ILogger logger)
     {
         _logger = logger;
         _connectedPeers = new Dictionary<int, NetPeer>();

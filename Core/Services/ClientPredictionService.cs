@@ -1,4 +1,4 @@
-﻿using MoonBark.Framework.Logging;
+using MoonBark.Framework.Logging;
 using MoonBark.NetworkSync.Core.Interfaces;
 using MoonBark.NetworkSync.Core.Messages;
 
@@ -15,12 +15,12 @@ public class ClientPredictionService : IClientPredictionService
     private readonly ILocalOccupancyValidator _localValidator;
     private readonly object _lock = new();
 
-    private readonly IFrameworkLogger _logger;
+    private readonly ILogger _logger;
 
     public ClientPredictionService(ILocalOccupancyValidator localValidator)
-        : this(localValidator, new ConsoleFrameworkLogger("ClientPrediction", FrameworkLogLevel.Debug)) { }
+        : this(localValidator, new ConsoleLogger("ClientPrediction", LogLevel.Debug)) { }
 
-    public ClientPredictionService(ILocalOccupancyValidator localValidator, IFrameworkLogger logger)
+    public ClientPredictionService(ILocalOccupancyValidator localValidator, ILogger logger)
     {
         _logger = logger;
         _predictions = new Dictionary<long, PredictedPlacementMessage>();
