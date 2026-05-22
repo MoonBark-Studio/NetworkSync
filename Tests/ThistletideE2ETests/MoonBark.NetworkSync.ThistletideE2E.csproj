@@ -11,4 +11,8 @@
     <ProjectReference Include="..\..\Core\MoonBark.NetworkSync.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="MoonBark.Framework.Types" />
+  </ItemGroup>
+
 </Project>
