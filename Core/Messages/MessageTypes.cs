@@ -1,9 +1,9 @@
-﻿namespace MoonBark.NetworkSync.Core.Messages;
+namespace MoonBark.NetworkSync.Core.Messages;
 
 /// <summary>
 /// Message type identifiers for network serialization.
 /// </summary>
- static class MessageTypes
+public static class MessageTypes
 {
     // Placement messages (1-10)
     public const byte PlacementCommand = 1;
