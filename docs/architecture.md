@@ -4,23 +4,26 @@
 
 ```
   ┌─────────────────────────────────────────┐
-  │                 Godot                   │ (Integration & Nodes)
+  │                 Godot                   │ (Nodes, HUD, Input)
   └────────────────────┬────────────────────┘
                        ▼
   ┌─────────────────────────────────────────┐
-  │                  ECS                    │ (Systems & Components)
+  │               Game Core                 │ (Headless ECS, Policies, Tasks)
+  │  ┌───────────────────────────────────┐  │
+  │  │  ECS (implementation detail)     │  │
+  │  └───────────────────────────────────┘  │
   └────────────────────┬────────────────────┘
                        ▼
   ┌─────────────────────────────────────────┐
-  │                  Core                   │ (Pure C# Domain Logic)
+  │              Framework                  │ (Shared types, buses, ECS base)
   └─────────────────────────────────────────┘
 ```
 
 ### 1. Core Layer
-Pure domain models and interfaces containing no external or game engine dependencies.
+Pure domain models, interfaces, and ECS components — no Godot dependencies.
 
-### 2. ECS Layer
-Friflo ECS Components and Systems containing event listeners and simulation logic.
+### 2. ECS Integration
+Friflo ECS systems live within Core as an implementation detail. See docs/PLUGIN-GAME-BOUNDARIES.md.
 
 ### 3. Godot Layer
-Godot Engine nodes and editor integrations wrapping the ECS layer.
+Godot Engine nodes and editor integrations — only for scene wiring, HUD, and input. No domain logic here.
