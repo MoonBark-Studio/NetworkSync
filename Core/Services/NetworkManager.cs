@@ -72,10 +72,15 @@ public sealed class NetworkManager : IDisposable
     /// </summary>
     public event EventHandler<PeerDisconnectedEventArgs>? PeerDisconnected;
 
-    /// <summary>
-    /// Creates a server-side network manager.
-    /// </summary>
-    public static NetworkManager CreateServer(ICoreOccupancyProvider occupancyProvider, int port = 7777, int maxConnections = 10)
+/// <summary>
+/// Default network port for server/client connections.
+/// </summary>
+private const int DefaultPort = 7777;
+
+/// <summary>
+/// Creates a server-side network manager.
+/// </summary>
+public static NetworkManager CreateServer(ICoreOccupancyProvider occupancyProvider, int port = DefaultPort, int maxConnections = 10)
     {
         var transport = new LiteNetTransport();
         var replicationService = new ReplicationService(transport);
@@ -128,10 +133,10 @@ public sealed class NetworkManager : IDisposable
         });
     }
 
-    /// <summary>
-    /// Connects to a server (client only).
-    /// </summary>
-    public async Task ConnectAsync(string host, int port = 7777)
+/// <summary>
+/// Connects to a server (client only).
+/// </summary>
+public async Task ConnectAsync(string host, int port = DefaultPort)
     {
         if (IsServer)
         {
