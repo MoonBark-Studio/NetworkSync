@@ -3,14 +3,14 @@
 <!--
 SSOT template for plugin README.md files.
 Copy this file to the plugin root as README.md and fill in the sections.
-Cross-game architecture rules: see docs/PLUGIN-GAME-BOUNDARIES.md
+Cross-game architecture rules: see docs/plugin-game-boundaries.md
 DRY violations tracked in: docs/integrations/dry-refactor-candidates.md
 -->
 
 ## Role
 
 One-paragraph description of what this plugin owns and what it does NOT own.
-See PLUGIN-GAME-BOUNDARIES.md for the full boundary rules.
+See plugin-game-boundaries.md for the full boundary rules.
 
 ## What belongs in this plugin
 
@@ -63,7 +63,7 @@ dotnet test Tests/NetworkSync.Tests.csproj
 
 ## Related Documentation
 
-- [Plugin vs Game Boundaries](../../docs/PLUGIN-GAME-BOUNDARIES.md) — architecture rules
+- [Plugin vs Game Boundaries](../../docs/plugin-game-boundaries.md) — architecture rules
 - [DRY Refactor Candidates](../../docs/integrations/dry-refactor-candidates.md) — cross-game duplication tracking
 
 ## Version

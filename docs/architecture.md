@@ -23,7 +23,7 @@
 Pure domain models, interfaces, and ECS components — no Godot dependencies.
 
 ### 2. ECS Integration
-Friflo ECS systems live within Core as an implementation detail. See docs/PLUGIN-GAME-BOUNDARIES.md.
+Friflo ECS systems live within Core as an implementation detail. See docs/plugin-game-boundaries.md.
 
 ### 3. Godot Layer
 Godot Engine nodes and editor integrations — only for scene wiring, HUD, and input. No domain logic here.
