@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\cores\MoonBark.Framework\MoonBark.Framework.csproj" />
     <ProjectReference Include="..\..\Core\MoonBark.NetworkSync.Core.csproj" />
   </ItemGroup>
 
