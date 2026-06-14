@@ -1,0 +1,7 @@
+# Gate manifest — run by godot-tools/scripts/gate/run-gate.sh (local pre-push == CI).
+# Promote [report] checks to [blocking] as each backlog clears. See GATE.md.
+
+[blocking]
+dotnet build "Core/MoonBark.NetworkSync.Core.csproj" -c Release --nologo -v q
+
+[report]
