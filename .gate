@@ -2,6 +2,6 @@
 # Promote [report] checks to [blocking] as each backlog clears. See GATE.md.
 
 [blocking]
-dotnet build "Core/MoonBark.NetworkSync.Core.csproj" -c Release --nologo -v q
+dotnet build "Core/MoonBark.NetworkSync.Core.csproj" --nologo -v q
 
 [report]
